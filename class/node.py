@@ -8,5 +8,5 @@ class Node:
     def __str__(self):
         return f"Node\nDepth = {self.depth}\nCost = {self.cost}"
 
-    
+print("Hello World")
 
