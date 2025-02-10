@@ -1,7 +1,15 @@
 class Game:
 
+    """
+    The Game class is used by library users.
+    It provides other classes with user-defined functions.
+    They must initialize the game class with the initial state of the game,
+    the rules of the game, the final state of the game and the function
+    that defines who is the winner.
+    """
+
     """Constructor"""
-    def __init__(self, initial_state, rules_function, final_state_function, winner_function):
+    def __init__(self, initial_state = None, rules_function = None, final_state_function = None, winner_function = None):
 
         # param initial_state: The initial state of the game.
         # param rules_function: The function that defines possible actions from a given state.
@@ -24,7 +32,6 @@ class Game:
         return self.final_state_function(self.state)
 
     def get_winner(self):
-        if self.is_game_over():
-            # Returns the winner of the game if it's finished, otherwise None.
-            return self.winner_function(self.state)
-        return None
+        # Returns the winner of the game if it's finished, otherwise None.
+        return self.winner_function(self.state)
+
