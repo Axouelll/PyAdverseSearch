@@ -1,29 +1,28 @@
-def minimax(node, depth, maximizing_player):
-    if depth == 0 or is_terminal(node):  
-        return evaluate(node)  
+def minimax(state, depth, maximizing):
+    """
+    Implémentation de l'algorithme Minimax.
 
-    if maximizing_player:
-        max_eval = float('-inf')
-        for child in get_children(node):  
-            eval = minimax(child, depth - 1, False)  
-            max_eval = max(max_eval, eval)  
-        return max_eval
+    :param etat: L'état actuel du jeu.
+    :param profondeur: La profondeur de recherche maximale.
+    :param maximisant: Booléen indiquant si c'est le tour du joueur MAX.
+    :return: La valeur minimax de l'état actuel.
+    """
+    # Si l'état est terminal ou la profondeur est atteinte, on évalue l'état
+    if depth == 0 or state.is_terminal():
+        return state.evaluate()
+
+     # Cas du joueur MAX (veut maximiser son score)
+    if maximizing:
+        max_value = float('-inf')
+        for successor in state.generate_successors():
+            value = minimax(successor, depth - 1, False)
+            max_value = max(max_value, value)
+        return max_value
+
+    # Cas du joueur MIN (veut minimiser le score de MAX)
     else:
-        min_eval = float('inf')
-        for child in get_children(node):  
-            eval = minimax(child, depth - 1, True)  
-            min_eval = min(min_eval, eval)  
-        return min_eval
-
-# Fonctions fictives à remplacer selon le jeu
-def is_terminal(node):
-    """Détermine si le nœud est un état terminal."""
-    return False  # À modifier
-
-def evaluate(node):
-    """Attribue une valeur à un état du jeu."""
-    return 0  # À modifier
-
-def get_children(node):
-    """Génère les états suivants."""
-    return []  # À modifier
+        min_value = float('inf')
+        for successor in state.generate_successors():
+            value = minimax(successor, depth - 1, True)
+            min_value = min(min_value, value)
+        return min_value
