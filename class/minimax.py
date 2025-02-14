@@ -30,6 +30,7 @@ def max_value(Node = None):
     for n in Node.children:
         v = max(v,min_value(n))
     return v
+
 def min_value(Node = None):
     if Node.state.is_terminal():
         return Node.state.evaluate()
