@@ -1,6 +1,4 @@
-import node as node
-import state as state
-import game as game
+from classes import node,state,game
 
 """
 Implémentation de l'algorithme Minimax.
