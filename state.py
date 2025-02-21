@@ -17,25 +17,30 @@ class State(ABC):
         self.value = None  # Heuristic score (to be calculated later)
         self.game = game #reference to the Game that's being played, used to get the utility function
 
-    @abstractmethod
+    
     def possible_actions(self):
-        """Returns a list of possible actions from this state."""
-        pass
+        """
+        Returns a list of possible actions from this state, 
+        this list is returned by the function given by the user to the Game class
+        """
+        return self.game.game_possible_actions(self)
 
+    
+    def is_terminal(self):
+        """
+        Checks if the state is a terminal state (game over)
+        thanks to the dedicated function defined by the user through the Game class
+        """
+        return self.game.game_is_terminal(self)
+
+    @abstractmethod
+    def utility(self):
+        pass
+    
     @abstractmethod
     def apply_action(self, action):
         """Applies an action and returns a new state."""
         pass
-
-    
-    def is_terminal(self):
-        """Checks if the state is a terminal state (game over) thanks to the dedicated function defined by the user through the Game class"""
-        return self.game.is_terminal(self)
-
-    
-    def utility(self):
-        return self.game.utility(self)
-        
 
     def generate_successors(self):
         """Generates and returns all possible successor states."""
