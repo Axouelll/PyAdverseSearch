@@ -1,4 +1,4 @@
-from state import State
+from classes import Node, State, GameTree
 
 class TicTacToeState(State):
     def __init__(self, board=None, player='MAX', parent=None):

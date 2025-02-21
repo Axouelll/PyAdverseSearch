@@ -1,7 +1,7 @@
 # FILE: test_tree.py
 
 from state_tictactoe import TicTacToeState
-from tree import GameTree
+from classes import Node, State, GameTree
 
 def test_tic_tac_toe_tree():
     print("\n🔵 TESTING FULL TIC-TAC-TOE TREE 🔵")

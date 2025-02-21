@@ -1,4 +1,4 @@
-from state import State
+from classes import Node, State, Tree
 
 class Connect4State(State):
     def __init__(self, grid=None, player='MAX', parent=None):

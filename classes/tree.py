@@ -1,6 +1,6 @@
 # FILE: tree.py
-from Node import Node
 
+from classes import Node
 
 class GameTree:
 
