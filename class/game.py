@@ -9,27 +9,27 @@ class Game:
     """
 
     """Constructor"""
-    def __init__(self, initial_state = None, rules_function = None, final_state_function = None, winner_function = None):
+    def __init__(self, initial_state = None, possible_actions = None, is_terminal = None, winner_function = None):
 
         # param initial_state: The initial state of the game.
-        # param rules_function: The function that defines possible actions from a given state.
-        # param final_state_function: The function that checks if the game has reached a final state (ended).
+        # param possible_actions: The function that defines possible actions from a given state.
+        # param is_terminal: The function that checks if the game has reached a final state (ended).
         # param winner_function: The function that determines the winner once the game is finished.
 
         self.state = initial_state
-        self.rules_function = rules_function
-        self.final_state_function = final_state_function
+        self.possible_actions = possible_actions
+        self.is_terminal = is_terminal
         self.winner_function = winner_function
 
     """Rules"""
-    def get_possible_actions(self):
-        # Returns the possible actions from the current game state.
-        return self.rules_function(self.state)
+    def game_possible_actions(self , state):
+        # Returns the possible actions from the state given through the parameter.
+        return self.possible_actions(state)
 
     """End game"""
-    def is_game_over(self):
-        # Checks if the game is over using the final_state_function.
-        return self.final_state_function(self.state)
+    def game_is_terminal(self , state):
+        # Checks if the game is over using the is_terminal function on the state given through the parameter.
+        return self.is_terminal(state)
 
     def get_winner(self):
         # Returns the winner of the game if it's finished, otherwise None.
