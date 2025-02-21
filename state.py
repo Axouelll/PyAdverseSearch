@@ -33,9 +33,12 @@ class State(ABC):
         """
         return self.game.game_is_terminal(self)
 
-    @abstractmethod
+    
     def utility(self):
-        pass
+        """
+        Calls the utility function given by the user to the Game class
+        """
+        return self.game.game_utility(self)
     
     @abstractmethod
     def apply_action(self, action):
