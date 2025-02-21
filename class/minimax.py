@@ -1,4 +1,6 @@
 import node as node
+import state as state
+import game as game
 
 """
 Implémentation de l'algorithme Minimax.
@@ -29,7 +31,7 @@ class Minimax :
 
     def max_value(node = None):
         if node.state.is_terminal():
-            return node.state.evaluate()
+            return self.game.utility(node.state)
 
         v = -1
         for n in node.children:
@@ -38,7 +40,7 @@ class Minimax :
 
     def min_value(node = None):
         if node.state.is_terminal():
-            return node.state.evaluate()
+            return self.game.utility(node.state)
 
         v = 100
         for n in node.children:
