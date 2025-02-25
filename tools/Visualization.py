@@ -80,16 +80,24 @@ def select_first(children):
 
 
 # Simulation d'un état de jeu
+import string
+
 class GameState:
-    def __init__(self, name, actions=None):
+    def __init__(self, name, depth=3):
         self.name = name
-        self.actions = actions if actions else []
+        self.depth = depth  # Nombre de niveaux d'expansion
+
+        # Générer dynamiquement 3 nouvelles actions pour chaque état sauf si la profondeur est atteinte
+        if self.depth > 0:
+            self.actions = [name + c for c in string.ascii_uppercase[:3]]  # Ex: "A" -> ["AB", "AC", "AD"]
+        else:
+            self.actions = []  # État terminal si la profondeur est atteinte
 
     def possible_actions(self):
         return self.actions
 
     def apply_action(self, action):
-        return GameState(action)
+        return GameState(action, self.depth - 1)  # Réduire la profondeur à chaque expansion
 
     def is_terminal(self):
         return len(self.actions) == 0
@@ -98,8 +106,9 @@ class GameState:
         return self.name
 
 
+
 # Création de l'état initial avec des actions possibles
-initial_state = GameState("A", ["B", "C"])
+initial_state = GameState("A", 5)
 root = Node(initial_state)
 
 vis = Visualization(root, select_first)
