@@ -1,4 +1,4 @@
-from PyAdverseSearch.classes import node,state,game
+from classes import node,state,game
 
 """
 Implémentation de l'algorithme Minimax.
@@ -9,15 +9,15 @@ class Minimax :
     def __init__(self, game = None):
         self.game = game
 
-    def minimax_decision(node = None):
+    def minimax_decision(self,node = None):
         #initialise la meilleur value à - l'infini
-        best_value = -1
+        best_value = game.heuristique(node.etat)
         #initialise le meilleur Node à nul
         best_node = None
 
         #On itère sur les enfants du Node
         for n in node.children:
-            value = min_value(n)
+            value = self.min_value(n)
 
             # si l'enfant est un meilleur cout que le précédent il
             # devient best Node et best value
@@ -27,20 +27,20 @@ class Minimax :
 
         return best_node
 
-    def max_value(node = None):
+    def max_value(self, node = None):
         if node.state.is_terminal():
             return self.game.utility(node.state)
 
         v = -1
         for n in node.children:
-            v = max(v,min_value(n))
+            v = max(v,self.min_value(n))
         return v
 
-    def min_value(node = None):
+    def min_value(self, node = None):
         if node.state.is_terminal():
             return self.game.utility(node.state)
 
-        v = 100
+        v = game.heuristique(node.etat)
         for n in node.children:
-            v = min(v,max_value(n))
+            v = min(v,self.max_value(n))
         return v
