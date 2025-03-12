@@ -1,4 +1,5 @@
-from classes import Node, State, Tree
+from PyAdverseSearch.classes import Node, State, GameTree
+
 
 class Connect4State(State):
     def __init__(self, grid=None, player='MAX', parent=None):
@@ -28,3 +29,33 @@ class Connect4State(State):
     def evaluate(self):
         """Returns a heuristic evaluation score."""
         return 0  # To be improved for AI strategy
+    
+    def evaluate_tictactoe_state(state):
+        """
+        Évalue l'état du Tic Tac Toe en attribuant des scores basés sur les alignements potentiels.
+        On utilise 'X' pour MAX et 'O' pour MIN.
+        """
+        board = state.board
+        score = 0
+        lignes = board + [list(col) for col in zip(*board)]  # lignes et colonnes
+        diagonales = [
+            [board[i][i] for i in range(3)],
+            [board[i][2 - i] for i in range(3)]
+        ]
+        for line in lignes + diagonales:
+            if line.count('X') == 3:
+                score += 100  # victoire pour MAX
+            elif line.count('X') == 2 and line.count(' ') == 1:
+                score += 10
+            elif line.count('X') == 1 and line.count(' ') == 2:
+                score += 1
+
+            if line.count('O') == 3:
+                score -= 100  # victoire pour MIN
+            elif line.count('O') == 2 and line.count(' ') == 1:
+                score -= 10
+            elif line.count('O') == 1 and line.count(' ') == 2:
+                score -= 1
+
+        return score
+

@@ -1,4 +1,4 @@
-from classes import node,state,game
+from PyAdverseSearch.classes import node,state,game
 
 """
 Implémentation de l'algorithme Minimax.

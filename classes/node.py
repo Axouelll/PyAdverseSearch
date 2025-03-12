@@ -1,3 +1,5 @@
+# FILE: node.py
+
 class Node:
     def __init__(self, state, parent=None, depth=0):
         """
@@ -5,11 +7,13 @@ class Node:
 
         :param state: The game state at this node.
         :param parent: The parent node in the tree (None if root).
+        :param depth: The depth of the node in the tree.
         """
         self.state = state
         self.parent = parent
         self.depth = depth
-        self.valuation = None 
+        # On calcule et stocke la valeur heuristique au moment de la création du nœud.
+        self.valuation = self.state.evaluate()
         self.children = []  # List of successor nodes
 
     def expand(self):
@@ -26,7 +30,7 @@ class Node:
     def display(self, depth=0):
         """Recursively displays the tree structure."""
         space  = "  " * depth
-        print(f"{space}Depth: {self.depth}, Player: {self.state.player}, Value: {self.value}")
+        print(f"{space}Depth: {self.depth}, Player: {self.state.player}, Heuristic: {self.valuation}")
         self.state.display()
         for child in self.children:
             child.display(depth + 1)

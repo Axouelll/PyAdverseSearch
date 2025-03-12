@@ -1,4 +1,4 @@
-from classes import Node, State, GameTree
+from PyAdverseSearch.classes import Node, State, GameTree
 
 class TicTacToeState(State):
     def __init__(self, board=None, player='MAX', parent=None):
@@ -33,6 +33,70 @@ class TicTacToeState(State):
             return True
         return all(cell != ' ' for row in self.board for cell in row)
 
-    def evaluate(self):
-        """Returns a heuristic evaluation score."""
-        return 0  # To be improved for AI strategy
+    
+    def evaluate(state):
+        """
+        Évalue l'état du Tic Tac Toe en comptant les alignements potentiels.
+        On considère 'X' pour MAX et 'O' pour MIN.
+        """
+        print("Évaluation de l'état reçu :")
+        print("Plateau actuel :")
+        for row in state.board:
+            print(row)
+        print("Joueur actuel :", state.player)
+        
+        board = state.board
+        ROWS = len(board)
+        COLS = len(board[0])
+        score = 0
+
+        def score_line(count, spaces):
+            # Pour Tic Tac Toe, on peut fixer des valeurs par exemple :
+            if count == 3:
+                return 100  # victoire
+            elif count == 2 and spaces == 1:
+                return 10
+            elif count == 1 and spaces == 2:
+                return 1
+            return 0
+
+        # Lignes et colonnes
+        for i in range(ROWS):
+            # Ligne i
+            line = board[i]
+            if line.count('X') > 0 or line.count('O') > 0:
+                if 'X' in line and 'O' not in line:
+                    count = line.count('X')
+                    spaces = line.count(' ')
+                    score += score_line(count, spaces)
+                elif 'O' in line and 'X' not in line:
+                    count = line.count('O')
+                    spaces = line.count(' ')
+                    score -= score_line(count, spaces)
+            # Colonne i
+            col = [board[r][i] for r in range(ROWS)]
+            if col.count('X') > 0 or col.count('O') > 0:
+                if 'X' in col and 'O' not in col:
+                    count = col.count('X')
+                    spaces = col.count(' ')
+                    score += score_line(count, spaces)
+                elif 'O' in col and 'X' not in col:
+                    count = col.count('O')
+                    spaces = col.count(' ')
+                    score -= score_line(count, spaces)
+
+        # Diagonales
+        diag1 = [board[i][i] for i in range(ROWS)]
+        diag2 = [board[i][ROWS-1-i] for i in range(ROWS)]
+        for diag in [diag1, diag2]:
+            if diag.count('X') > 0 or diag.count('O') > 0:
+                if 'X' in diag and 'O' not in diag:
+                    count = diag.count('X')
+                    spaces = diag.count(' ')
+                    score += score_line(count, spaces)
+                elif 'O' in diag and 'X' not in diag:
+                    count = diag.count('O')
+                    spaces = diag.count(' ')
+                    score -= score_line(count, spaces)
+
+        return score

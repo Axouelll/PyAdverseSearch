@@ -1,3 +1,5 @@
+# FILE: state.py
+
 from abc import ABC, abstractmethod
 
 class State(ABC):
@@ -8,37 +10,42 @@ class State(ABC):
         :param board: Representation of the game state.
         :param player: Current player ('MAX' or 'MIN').
         :param parent: Previous state (useful for the search tree).
-        :param game: Reference to the instance of the Game class that's begin used for this state
-                        used to get access to the is_terminal function given by the user
+        :param game: Reference to the instance of the Game class that's being used for this state,
+                     used to get access to the is_terminal function given by the user
         """
         self.board = board
         self.player = player
         self.parent = parent
-        self.value = None  # Heuristic score (to be calculated later)
-        self.game = game #reference to the Game that's being played, used to get the utility function
+        self.value = None  # (optionnel) peut servir pour un stockage temporaire
+        self.game = game  # référence au Game pour accéder aux fonctions définies par l'utilisateur
 
-    
     def possible_actions(self):
         """
-        Returns a list of possible actions from this state, 
-        this list is returned by the function given by the user to the Game class
+        Returns a list of possible actions from this state.
+        This list is returned by the function given by the user to the Game class.
         """
         return self.game.game_possible_actions(self)
 
-    
     def is_terminal(self):
         """
         Checks if the state is a terminal state (game over)
-        thanks to the dedicated function defined by the user through the Game class
+        thanks to the dedicated function defined by the user through the Game class.
         """
         return self.game.game_is_terminal(self)
 
-    
     def utility(self):
         """
-        Calls the utility function given by the user to the Game class
+        Calls the utility function given by the user to the Game class.
         """
         return self.game.game_utility(self)
+    
+    def evaluate(self):
+        """
+        Returns a heuristic evaluation of the state.
+        This implementation delegates the call to the Game's game_heuristic function,
+        following the same pattern as for possible_actions and is_terminal.
+        """
+        return self.game.game_heuristic(self)
     
     @abstractmethod
     def apply_action(self, action):

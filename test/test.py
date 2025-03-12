@@ -1,6 +1,6 @@
 # FILE: test_tree.py
 
-from test.state_tictactoe import TicTacToeState
+from dev.PyAdverseSearch.test.state_tictactoe import TicTacToeState
 from classes import GameTree
 
 def test_tic_tac_toe_tree():
