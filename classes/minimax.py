@@ -17,7 +17,7 @@ class Minimax :
 
         #On itère sur les enfants du Node
         for n in node.children:
-            value = self.min_value(n)
+            value = self.__min_value(n)
 
             # si l'enfant est un meilleur cout que le précédent il
             # devient best Node et best value
@@ -27,20 +27,22 @@ class Minimax :
 
         return best_node
 
-    def max_value(self, node = None):
+    #private methode for max
+    def __max_value(self, node = None):
         if node.state.is_terminal():
             return self.game.utility(node.state)
 
         v = -1
         for n in node.children:
-            v = max(v,self.min_value(n))
+            v = max(v,self.__min_value(n))
         return v
 
-    def min_value(self, node = None):
+    #private methode for min
+    def __min_value(self, node = None):
         if node.state.is_terminal():
             return self.game.utility(node.state)
 
         v = game.heuristique(node.etat)
         for n in node.children:
-            v = min(v,self.max_value(n))
+            v = min(v,self.__max_value(n))
         return v
