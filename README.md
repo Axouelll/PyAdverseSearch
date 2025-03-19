@@ -52,21 +52,56 @@ PyAdverseSearch/
 - Le répertoire **class/** contient les différentes classes fondamentales de la bibliothèque.
 - Le document **README.md** est le documentation du projet PyAdverseSearch.
 
-### Installation
+### Installation et prérequis
 
-Pour installer PyAdverseSearch, utilisez la commande pip :
+#### Prérequis
+
+Avant d'installer PyAdverseSearch, assurez-vous que votre environnement répond aux exigences suivantes :
+
+- **Python** : Version 3.9 ou supérieure
+- **Bibliothèques de base** :
+  - NumPy (>= 1.19.0) : pour les manipulations de tableaux et les calculs
+  - Matplotlib (>= 3.3.0) : pour les fonctionnalités de visualisation
+  - pytest (>= 6.0.0) : pour exécuter les tests unitaires (uniquement nécessaire pour le développement)
+
+#### Installation standard
+
+La méthode la plus simple pour installer PyAdverseSearch est d'utiliser pip, le gestionnaire de paquets Python :
 
 ```
 pip install pyadversesearch
 ```
 
-Alternativement, vous pouvez cloner le dépôt GitHub et installer depuis la source :
+Cette commande installera automatiquement la dernière version stable de la bibliothèque ainsi que toutes ses dépendances.
+
+#### Installation depuis la source
+
+Pour les utilisateurs souhaitant accéder à la version de développement ou contribuer au projet, l'installation depuis le dépôt source est recommandée :
 
 ```
+# Cloner le dépôt
 git clone https://github.com/username/pyadversesearch.git
+
+# Se déplacer dans le répertoire du projet
 cd pyadversesearch
+
+# Installer en mode développement
 pip install -e .
 ```
+
+L'installation en mode développement (`-e`) permet de modifier le code source et de voir les changements appliqués sans avoir à réinstaller la bibliothèque.
+
+#### Vérification de l'installation
+
+Pour vérifier que l'installation s'est correctement déroulée, exécutez :
+
+```python
+import pyadversesearch
+print(pyadversesearch.__version__)
+```
+
+Si aucune erreur n'apparaît et que la version s'affiche, l'installation est réussie.
+
 
 ### Guide d'utilisation rapide
 
