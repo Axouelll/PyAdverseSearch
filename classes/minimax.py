@@ -2,25 +2,25 @@ from classes import game
 import time
 
 """
-Implémentation de l'algorithme Minimax.
-:param game: la partie sur laquelle utilisee l'algorithme
-:param max_depth: la profondeur maximum autorisee
-:param max_time_seconds: le temps en secondes d'execution de l'algorithme autorise
-:return Node: Le meilleur prochain Node
+Implementation of the Minimax algorithm.
+:param game: the game on which the algorithm is used
+:param max_depth: maximum depth allowed
+:param max_time_seconds: the time in seconds allowed for the algorithm to run.
+:return Node: the best next Node
 
-si ni max_depth ni max_time_seconds ne sont fournis au constructeur de la classe, c'est le fonction de l'algorithme classique qui s'effectura
-si max_depth est donne, la verification de la profondeur se fera
-si max_time_seconds est donne, la verification de la duree d'execution de l'algorithme se fera
-si les deux sont donnes, la verification de la profondeur et de la duree d'execution se feront
+if neither max_depth nor max_time_seconds are supplied to the class constructor, the classic algorithm function will be used
+if max_depth is given, depth verification will be performed
+if max_time_seconds is given, the algorithm's execution time is verified
+if both are given, both depth and execution time will be checked
 """
 
 class Minimax:
     def __init__(self, game=None, max_depth=None, max_time_seconds=None):
-        # on verifie que si il y a un max depth ou/et un max time, qu'ils soient bien des nombres positifs et que max depth soit bien un entier
+        # we check that if there is a max depth and/or a max time, that they are positive numbers and that max depth is an integer.
         if max_depth is not None and ( max_depth <= 0 or not isinstance(max_depth, int) ) :
             print("Error during the creation of a Minimax instance, max depth attribute must be a positive integer")
             return
-        # max time peut etre un entier ou un reel (toujours positif non nul)
+        # max time can be an integer or a float (still has to be positiv and stricly above 0 though)
         elif max_time_seconds is not None and ( max_time_seconds <= 0 or not isinstance(max_time_seconds, float) or not isinstance(max_time_seconds, int) ):
             print("Error during the creation of a Minimax instance, max time attribute must be a positive integer or a positive float")
             return
@@ -96,8 +96,8 @@ class Minimax:
 
         return v
 
-    # fonction permettant de verifier que la limite de temps n'est pas depasser
-    # renvoie vrai si elle est depassee, faux sinon
+    # function to check that the time limit has not been exceeded
+    # returns true if exceeded, false otherwise
     def time_limit_reached(self):
         if self.max_time is None:
             return False
@@ -105,6 +105,7 @@ class Minimax:
         return elapsed_time >= self.max_time
 
 
+    def default_heuristic(self):
 
 
 
