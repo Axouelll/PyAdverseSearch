@@ -31,13 +31,13 @@ class Minimax:
         self.start_time = None
 
         if self.max_depth is not None and self.max_time is not None:
-            print(f"[INFO] Mode combiné : profondeur maximale ({self.max_depth}) et limite de temps ({self.max_time} sec) activés")
+            print(f"[INFO] Combined mode: maximum depth ({self.max_depth}) and time limit ({self.max_time} sec)")
         elif self.max_depth is not None:
-            print(f"[INFO] Mode profondeur maximale activé (max_depth = {self.max_depth})")
+            print(f"[INFO] Maximum depth mode (max_depth = {self.max_depth})")
         elif self.max_time is not None:
-            print(f"[INFO] Limite de temps activée (max_time = {self.max_time} secondes)")
+            print(f"[INFO] Time limit mode (max_time = {self.max_time} seconds)")
         else:
-            print("[INFO] Minimax classique sans contrainte activé")
+            print("[INFO] Classic Minimax without constraints")
 
 
     def minimax_decision(self, node=None):
@@ -104,12 +104,21 @@ class Minimax:
         elapsed_time = time.time() - self.start_time
         return elapsed_time >= self.max_time
 
+    # If the node is terminal, it directly returns its utility value. Otherwise, it recursively calculates the total utility of all child nodes.
+    def default_heuristic(self, node): 
+        if node.state.is_terminal():
+            return self.game.utility(node.state)
 
-    def default_heuristic(self):
+        total = 0
+        for child in node.children:
+            total += self.default_heuristic(child)
+
+        return total
 
 
 
-""""
+
+"""
 BACKUP DES CLASSES INDEPENDANTES
 class Minimax :
     def __init__(self, game = None):
