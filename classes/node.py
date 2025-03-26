@@ -16,16 +16,18 @@ class Node:
         self.valuation = self.state.evaluate()
         self.children = []  # List of successor nodes
 
-    def expand(self):
+#?applyaction
+    def _expand(self):
         """Generates all possible successor states and adds them as children."""
-        for action in self.state.possible_actions():
-            new_state = self.state.apply_action(action)
+        for action in self.state._possible_actions():
+            new_state = self.state._apply_action(action)
             child_node = Node(new_state, parent=self, depth=self.depth + 1)
             self.children.append(child_node)
 
-    def is_terminal(self):
+    def _is_terminal(self):
         """Returns True if this node represents a terminal state."""
-        return self.state.is_terminal()
+        return self.state._is_terminal()
+
 
     def display(self, depth=0):
         """Recursively displays the tree structure."""

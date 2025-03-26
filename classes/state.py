@@ -19,42 +19,39 @@ class State(ABC):
         self.value = None  # (optionnel) peut servir pour un stockage temporaire
         self.game = game  # référence au Game pour accéder aux fonctions définies par l'utilisateur
 
-    def possible_actions(self):
+
+    def _possible_actions(self):
         """
         Returns a list of possible actions from this state.
         This list is returned by the function given by the user to the Game class.
         """
         return self.game.game_possible_actions(self)
 
-    def is_terminal(self):
+    def _is_terminal(self):
         """
         Checks if the state is a terminal state (game over)
         thanks to the dedicated function defined by the user through the Game class.
         """
         return self.game.game_is_terminal(self)
 
-    def utility(self):
+    def _utility(self):
         """
         Calls the utility function given by the user to the Game class.
         """
         return self.game.game_utility(self)
-    
-    def evaluate(self):
+
+    def _evaluate(self):
         """
         Returns a heuristic evaluation of the state.
         This implementation delegates the call to the Game's game_heuristic function,
         following the same pattern as for possible_actions and is_terminal.
         """
         return self.game.game_heuristic(self)
-    
-    @abstractmethod
-    def apply_action(self, action):
-        """Applies an action and returns a new state."""
-        pass
 
-    def generate_successors(self):
+#?applyaction
+    def _generate_successors(self):
         """Generates and returns all possible successor states."""
-        return [self.apply_action(action) for action in self.possible_actions()]
+        return [self.apply_action(action) for action in self._possible_actions()]
 
     def display(self):
         """Displays the current game state."""
