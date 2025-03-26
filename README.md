@@ -2,6 +2,18 @@
 
 ## 1 - Présentation de PyAdverseSearch
 
+Table des matières
+
+Présentation de PyAdverseSearch
+
+Structure du projet et utilisation
+
+Fonctionnement détaillé des classes
+
+Outils et modules utilitaires
+
+Conclusion
+
 ### Motivation et objectifs
 
 PyAdverseSearch a été développée pour répondre à un besoin croissant dans le domaine de l'intelligence artificielle : disposer d'une bibliothèque Python flexible et modulaire dédiée à l'implémentation d'algorithmes d'exploration adverse. Face à l'absence d'outils spécialisés combinant simplicité d'utilisation et performance, PyAdverseSearch offre une solution complète pour les chercheurs, étudiants et développeurs souhaitant travailler avec des algorithmes de prise de décision dans des environnements compétitifs.
