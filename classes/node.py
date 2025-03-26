@@ -15,6 +15,8 @@ class Node:
         # On calcule et stocke la valeur heuristique au moment de la création du nœud.
         self.valuation = self.state.evaluate()
         self.children = []  # List of successor nodes
+        self.id = Node.next_id
+        Node.next_id += 1
 
     def expand(self):
         """Generates all possible successor states and adds them as children."""

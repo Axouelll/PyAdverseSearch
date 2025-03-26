@@ -39,7 +39,27 @@ class Minimax:
         else:
             print("[INFO] Classic Minimax without constraints")
 
+    def choose_best_move(self, state):
+        """
+        Méthode de l'interface SearchAlgorithm.
+        À partir d'un état donné, retourne le meilleur coup en utilisant minimax.
+        """
+        self.start_time = time.time()
+        best_value = self.game.game_heuristic(state)  # Valeur initiale basée sur l'heuristique de l'état
+        best_move = None
 
+        # Pour chaque action possible depuis l'état courant, calcule la valeur minimax
+        for action in state.possible_actions():
+            child_state = state.apply_action(action)
+            value = self.min_value(child_state, current_depth=1)
+            if value > best_value:
+                best_value = value
+                best_move = action
+
+            if self.time_limit_reached():
+                break
+
+        return best_move
     def minimax_decision(self, node=None):
         self.start_time = time.time()
 

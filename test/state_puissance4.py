@@ -26,36 +26,60 @@ class Connect4State(State):
         """Checks if the game is over (win or full board)."""
         return all(self.board[0][col] != ' ' for col in range(7))
 
-    def evaluate(self):
-        """Returns a heuristic evaluation score."""
-        return 0  # To be improved for AI strategy
-    
-    def evaluate_tictactoe_state(state):
-        """
-        Évalue l'état du Tic Tac Toe en attribuant des scores basés sur les alignements potentiels.
-        On utilise 'X' pour MAX et 'O' pour MIN.
-        """
-        board = state.board
-        score = 0
-        lignes = board + [list(col) for col in zip(*board)]  # lignes et colonnes
-        diagonales = [
-            [board[i][i] for i in range(3)],
-            [board[i][2 - i] for i in range(3)]
-        ]
-        for line in lignes + diagonales:
-            if line.count('X') == 3:
-                score += 100  # victoire pour MAX
-            elif line.count('X') == 2 and line.count(' ') == 1:
-                score += 10
-            elif line.count('X') == 1 and line.count(' ') == 2:
-                score += 1
+    def evaluate(state):
+            print("Évaluation de l'état reçu :")
+            print("Plateau actuel :")
+            for row in state.board:
+                print(row)
+            print("Joueur actuel :", state.player)
+            
+            """
+            Évalue l'état du jeu en s'inspirant des méthodes d'évaluation aux échecs.
+            
+            Si l'état est terminal, on renvoie :
+            1  si MAX a gagné,
+            0  en cas d'égalité,
+            -1  si MIN a gagné.
+            
+            Sinon, on calcule une évaluation heuristique en combinant :
+            - Un score "matériel" basé sur la différence de jetons.
+            - Un bonus positionnel (par exemple, contrôler le centre du plateau).
+            """
+            # Vérifier si l'état est terminal et renvoyer la valeur appropriée.
+            if state.is_terminal():
+                winner = state.game.get_winner()
+                if winner == 'MAX':
+                    return 1
+                elif winner == 'MIN':
+                    return -1
+                else:
+                    return 0
 
-            if line.count('O') == 3:
-                score -= 100  # victoire pour MIN
-            elif line.count('O') == 2 and line.count(' ') == 1:
-                score -= 10
-            elif line.count('O') == 1 and line.count(' ') == 2:
-                score -= 1
+            # Évaluation non terminale (inspirée des échecs)
+            board = state.board
+            # "Matériel" : différence du nombre de jetons
+            max_tokens = sum(row.count('X') for row in board)
+            min_tokens = sum(row.count('O') for row in board)
+            material_score = max_tokens - min_tokens  # avantage matériel pour MAX
 
-        return score
+            # Bonus positionnel : par exemple, occuper le centre du plateau
+            positional_score = 0
+            ROWS = len(board)
+            COLS = len(board[0])
+            center_row = ROWS // 2
+            center_col = COLS // 2
+            center_value = board[center_row][center_col]
+            if center_value == 'X':
+                positional_score += 1
+            elif center_value == 'O':
+                positional_score -= 1
 
+            # Combiner les scores avec des coefficients (ces coefficients peuvent être ajustés)
+            # Ici, on attribue 0.1 pour l'aspect matériel et 0.05 pour le bonus positionnel.
+            score = material_score * 0.1 + positional_score * 0.05
+
+            # Pour une perspective relative : si c'est le tour de MIN, on inverse le score.
+            if state.player == 'MIN':
+                score = -score
+
+            return score

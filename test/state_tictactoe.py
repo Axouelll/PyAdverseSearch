@@ -35,68 +35,103 @@ class TicTacToeState(State):
 
     
     def evaluate(state):
-        """
-        Évalue l'état du Tic Tac Toe en comptant les alignements potentiels.
-        On considère 'X' pour MAX et 'O' pour MIN.
-        """
+        print("----------------------------------------------------")
         print("Évaluation de l'état reçu :")
         print("Plateau actuel :")
         for row in state.board:
             print(row)
         print("Joueur actuel :", state.player)
+        print("-------------------------------------------------------")
         
-        board = state.board
-        ROWS = len(board)
-        COLS = len(board[0])
-        score = 0
+        """
+        Évalue l'état du Tic Tac Toe (morpion) en une seule fonction.
 
-        def score_line(count, spaces):
-            # Pour Tic Tac Toe, on peut fixer des valeurs par exemple :
-            if count == 3:
-                return 100  # victoire
-            elif count == 2 and spaces == 1:
-                return 10
-            elif count == 1 and spaces == 2:
-                return 1
+        On suppose que :
+        - state.board est une liste de listes représentant le plateau (3×3)
+        - Chaque case contient 'X' (pour MAX), 'O' (pour MIN) ou ' ' (case vide).
+
+        Si l'état est terminal, la fonction renvoie :
+        1  si MAX (X) a gagné,
+        -1  si MIN (O) a gagné,
+        0  en cas d'égalité.
+
+        Sinon, l'évaluation heuristique se base sur le nombre de lignes (lignes, colonnes, diagonales)
+        "ouvertes" (c'est-à-dire sans présence simultanée de X et O) et attribue un bonus
+        plus important lorsque deux symboles sont déjà alignés.
+        """
+        board = state.board
+
+        # Fonction interne pour vérifier si le plateau est plein
+        def is_full(board):
+            for row in board:
+                if ' ' in row:
+                    return False
+            return True
+
+        # Fonction interne pour déterminer le gagnant
+        def get_winner_morpion(board):
+            # Vérification des lignes
+            for row in board:
+                if row[0] == row[1] == row[2] and row[0] != ' ':
+                    return row[0]
+            # Vérification des colonnes
+            for j in range(3):
+                if board[0][j] == board[1][j] == board[2][j] and board[0][j] != ' ':
+                    return board[0][j]
+            # Vérification des diagonales
+            if board[0][0] == board[1][1] == board[2][2] and board[0][0] != ' ':
+                return board[0][0]
+            if board[0][2] == board[1][1] == board[2][0] and board[0][2] != ' ':
+                return board[0][2]
+            return None
+
+        # Vérifier si l'état est terminal
+        winner = get_winner_morpion(board)
+        if winner == 'X':
+            return 1
+        elif winner == 'O':
+            return -1
+        elif is_full(board):
             return 0
 
-        # Lignes et colonnes
-        for i in range(ROWS):
-            # Ligne i
-            line = board[i]
-            if line.count('X') > 0 or line.count('O') > 0:
-                if 'X' in line and 'O' not in line:
-                    count = line.count('X')
-                    spaces = line.count(' ')
-                    score += score_line(count, spaces)
-                elif 'O' in line and 'X' not in line:
-                    count = line.count('O')
-                    spaces = line.count(' ')
-                    score -= score_line(count, spaces)
-            # Colonne i
-            col = [board[r][i] for r in range(ROWS)]
-            if col.count('X') > 0 or col.count('O') > 0:
-                if 'X' in col and 'O' not in col:
-                    count = col.count('X')
-                    spaces = col.count(' ')
-                    score += score_line(count, spaces)
-                elif 'O' in col and 'X' not in col:
-                    count = col.count('O')
-                    spaces = col.count(' ')
-                    score -= score_line(count, spaces)
+        # Si l'état n'est pas terminal, on calcule une évaluation heuristique
+        score = 0
+        lines = []
 
+        # Rassembler toutes les lignes
+        # Lignes
+        for row in board:
+            lines.append(row)
+        # Colonnes
+        for j in range(3):
+            col = [board[i][j] for i in range(3)]
+            lines.append(col)
         # Diagonales
-        diag1 = [board[i][i] for i in range(ROWS)]
-        diag2 = [board[i][ROWS-1-i] for i in range(ROWS)]
-        for diag in [diag1, diag2]:
-            if diag.count('X') > 0 or diag.count('O') > 0:
-                if 'X' in diag and 'O' not in diag:
-                    count = diag.count('X')
-                    spaces = diag.count(' ')
-                    score += score_line(count, spaces)
-                elif 'O' in diag and 'X' not in diag:
-                    count = diag.count('O')
-                    spaces = diag.count(' ')
-                    score -= score_line(count, spaces)
+        diag1 = [board[i][i] for i in range(3)]
+        diag2 = [board[i][2 - i] for i in range(3)]
+        lines.append(diag1)
+        lines.append(diag2)
+
+        # Évaluer chaque ligne non bloquée
+        for line in lines:
+            # Si la ligne contient à la fois 'X' et 'O', elle est bloquée
+            if 'X' in line and 'O' in line:
+                continue
+
+            # Pour MAX ('X')
+            if 'X' in line:
+                count = line.count('X')
+                if count == 1:
+                    score += 1
+                elif count == 2:
+                    score += 10
+
+            # Pour MIN ('O')
+            if 'O' in line:
+                count = line.count('O')
+                if count == 1:
+                    score -= 1
+                elif count == 2:
+                    score -= 10
 
         return score
