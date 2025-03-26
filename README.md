@@ -320,6 +320,34 @@ Le module config.py centralise :
 
 L'utilisation judicieuse de ces modules permet d'améliorer significativement l'efficacité du développement et la qualité des analyses réalisées avec PyAdverseSearch.
 
+### Utilisation de la bibliothèque
+### Pour les utilisateurs
+
+Cette section s’adresse aux personnes qui souhaitent utiliser PyAdverseSearch sans modifier son code source. L’objectif est d’exploiter les algorithmes implémentés pour résoudre un problème de type jeu.
+### Objectif utilisateur
+
+    Définir un jeu personnalisé (héritant de Game et State)
+
+    Appliquer un algorithme comme Minimax
+
+    Obtenir les décisions optimales automatiquement
+
+    L’utilisateur n’a pas besoin de connaître le fonctionnement interne de Minimax, ni de gérer l’arbre d’exploration directement.
+
+### Pour les développeurs
+
+Cette section s’adresse aux développeurs qui souhaitent modifier, étendre ou améliorer la bibliothèque.
+### Objectif développeur
+
+    Ajouter de nouveaux algorithmes 
+
+    Modifier le comportement de l’arbre (Tree, Node)
+
+    Créer de nouveaux outils de visualisation
+
+    Ajouter de nouvelles heuristiques ou améliorer les performances
+
+    Le développeur a une vue complète sur l’architecture interne et peut modifier ou optimiser les composants à volonté.
 
 
 
