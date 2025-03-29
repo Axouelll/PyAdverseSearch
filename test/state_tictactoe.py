@@ -1,5 +1,87 @@
 from classes.state import State
+from classes.game import Game
 
+class TicTacToeState(State):
+    def __init__(self, board=None, player='MAX', parent=None, game=None):
+        if board is None:
+            board = [[' ' for _ in range(3)] for _ in range(3)]
+        super().__init__(board, player, parent, game)
+
+    def apply_action(self, action):
+        row, col = action
+        new_board = [row[:] for row in self.board]
+        new_board[row][col] = 'X' if self.player == 'MAX' else 'O'
+        next_player = 'MIN' if self.player == 'MAX' else 'MAX'
+        return TicTacToeState(new_board, next_player, parent=self, game=self.game)
+
+def possible_actions(state):
+    return [(i, j) for i in range(3) for j in range(3) if state.board[i][j] == ' ']
+
+def is_terminal(state):
+    b = state.board
+    # check rows, columns, and diagonals
+    lines = b + [list(col) for col in zip(*b)] + [[b[i][i] for i in range(3)], [b[i][2-i] for i in range(3)]]
+    if any(line.count(line[0]) == 3 and line[0] != ' ' for line in lines):
+        return True
+    return all(cell != ' ' for row in b for cell in row)
+
+def utility(state):
+    b = state.board
+    lines = b + [list(col) for col in zip(*b)] + [[b[i][i] for i in range(3)], [b[i][2-i] for i in range(3)]]
+    for line in lines:
+        if line.count('X') == 3:
+            return 1
+        elif line.count('O') == 3:
+            return -1
+    return 0
+
+def heuristic(state):
+    # basic: 0 if draw, +1 if MAX has 2 in a line, -1 if MIN has 2
+    b = state.board
+    score = 0
+    lines = b + [list(col) for col in zip(*b)] + [[b[i][i] for i in range(3)], [b[i][2-i] for i in range(3)]]
+    for line in lines:
+        if line.count('X') == 2 and line.count(' ') == 1:
+            score += 0.5
+        if line.count('O') == 2 and line.count(' ') == 1:
+            score -= 0.5
+    return score
+
+def winner_function(state):
+    b = state.board
+    lines = b + [list(col) for col in zip(*b)] + [[b[i][i] for i in range(3)], [b[i][2-i] for i in range(3)]]
+    for line in lines:
+        if line.count('X') == 3:
+            return 'MAX'
+        elif line.count('O') == 3:
+            return 'MIN'
+    return None
+
+def generate_tictactoe_game():
+    initial_state = TicTacToeState()
+    game = Game(
+        initial_state=initial_state,
+        possible_actions=possible_actions,
+        is_terminal=is_terminal,
+        winner_function=winner_function,
+        utility=utility,
+        heuristic=heuristic
+    )
+    initial_state.game = game  # important pour connecter les appels dynamiques
+    return game
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 class TicTacToeState(State):
     def __init__(self, board=None, player='MAX', parent=None):
         """Initializes a Tic-Tac-Toe game state."""
@@ -134,4 +216,4 @@ class TicTacToeState(State):
                 elif count == 2:
                     score -= 10
 
-        return score
+        return score'''

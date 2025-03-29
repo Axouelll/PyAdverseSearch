@@ -1,5 +1,5 @@
 # FILE: game.py
-from tree import GameTree
+from classes.tree import GameTree
 
 class Game:
     """
