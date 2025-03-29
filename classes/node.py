@@ -12,8 +12,7 @@ class Node:
         self.state = state
         self.parent = parent
         self.depth = depth
-        # On calcule et stocke la valeur heuristique au moment de la création du nœud.
-        self.valuation = self.state.evaluate()
+        self.valuation = None
         self.children = []  # List of successor nodes
         self.id = Node.next_id
         Node.next_id += 1

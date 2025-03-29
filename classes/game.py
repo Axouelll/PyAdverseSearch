@@ -1,4 +1,5 @@
 # FILE: game.py
+from tree import GameTree
 
 class Game:
     """
@@ -23,6 +24,7 @@ class Game:
         self.winner_function = winner_function
         self.utility = utility
         self.heuristic = heuristic
+        self.tree = GameTree(initial_state=initial_state)
 
     # Rules
     def game_possible_actions(self, state):

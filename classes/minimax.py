@@ -60,6 +60,7 @@ class Minimax:
                 break
 
         return best_move
+    
     def minimax_decision(self, node=None):
         self.start_time = time.time()
 
@@ -130,8 +131,8 @@ class Minimax:
             return self.game.utility(node.state)
 
         total = 0
-        for child in node.children:
-            total += self.default_heuristic(child)
+        for node_child in node.children:
+            total += self.default_heuristic(node_child)
 
         return total
 

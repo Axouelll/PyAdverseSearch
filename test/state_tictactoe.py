@@ -1,4 +1,4 @@
-from PyAdverseSearch.classes import Node, State, GameTree
+from classes.state import State
 
 class TicTacToeState(State):
     def __init__(self, board=None, player='MAX', parent=None):

@@ -1,7 +1,11 @@
 # FILE: test_tree.py
-from PyAdverseSearch.test.state_tictactoe import TicTacToeState
-from PyAdverseSearch.classes.game import Game
-from PyAdverseSearch.classes.minimax import Minimax
+from test.state_tictactoe import TicTacToeState
+from classes.game import Game
+from classes.minimax import Minimax
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + "/.."))
+
 
 def test_best_move_tictactoe():
     print("\n🔵 TESTING BEST MOVE FOR TIC TAC TOE 🔵")
@@ -19,5 +23,10 @@ def test_best_move_tictactoe():
     best_move = algo.choose_best_move(initial_state)
     print("Le meilleur coup à jouer est :", best_move)
 
+def test_general():
+    #todo
+    return 0
+
 if __name__ == "__main__":
-    test_best_move_tictactoe()
+    #test_best_move_tictactoe()
+    print('i')
