@@ -1,6 +1,7 @@
 # FILE: node.py
 
 class Node:
+    next_id = 0
     def __init__(self, state, parent=None, depth=0):
         """
         Represents a node in the game tree.
@@ -25,7 +26,7 @@ class Node:
             child_node = Node(new_state, parent=self, depth=self.depth + 1)
             self.children.append(child_node)
 
-    def _is_terminal(self):
+    def is_terminal(self):
         """Returns True if this node represents a terminal state."""
         return self.state._is_terminal()
 

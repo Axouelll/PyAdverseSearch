@@ -1,5 +1,5 @@
-from classes.state import State
-from classes.game import Game
+from ..classes.state import State
+from ..classes.game import Game
 
 class TicTacToeState(State):
     def __init__(self, board=None, player='MAX', parent=None, game=None):
@@ -7,7 +7,7 @@ class TicTacToeState(State):
             board = [[' ' for _ in range(3)] for _ in range(3)]
         super().__init__(board, player, parent, game)
 
-    def apply_action(self, action):
+    def _apply_action(self, action):
         row, col = action
         new_board = [row[:] for row in self.board]
         new_board[row][col] = 'X' if self.player == 'MAX' else 'O'

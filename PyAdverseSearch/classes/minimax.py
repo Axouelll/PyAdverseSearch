@@ -1,4 +1,7 @@
-from classes import game
+from PyAdverseSearch.classes.algorithm import SearchAlgorithm
+from PyAdverseSearch.classes.game import Game
+
+
 import time
 
 """

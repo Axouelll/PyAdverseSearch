@@ -1,5 +1,6 @@
 # FILE: game.py
-from classes.tree import GameTree
+from PyAdverseSearch.classes.tree import GameTree
+
 
 class Game:
     """
@@ -24,7 +25,12 @@ class Game:
         self.winner_function = winner_function
         self.utility = utility
         self.heuristic = heuristic
+        print("[DEBUG] Dans Game.__init__: Avant affectation, initial_state.game =", getattr(self.state, "game", None))
+        if self.state is not None:
+            self.state.game = self
+        print("[DEBUG] Dans Game.__init__: Après affectation, initial_state.game =", self.state.game)
         self.tree = GameTree(initial_state=initial_state)
+        print("[DEBUG] Dans Game.__init__: Arbre construit.")
 
     # Rules
     def game_possible_actions(self, state):
