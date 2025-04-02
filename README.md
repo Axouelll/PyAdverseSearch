@@ -11,6 +11,8 @@
 [Outils et modules utilitaires](#recommandation-du-chat--outils-et-utilitaires)
 
 [Conclusion](#conclusion)
+
+
 ## 1 - Présentation de PyAdverseSearch
 ### Motivation et objectifs
 
@@ -317,6 +319,17 @@ Le module config.py centralise :
 - Les profils de configuration prédéfinis
 
 L'utilisation judicieuse de ces modules permet d'améliorer significativement l'efficacité du développement et la qualité des analyses réalisées avec PyAdverseSearch.
+
+## 4- Fonctions Privées et protégées
+
+Dans PyAdverseSearch, certaines fonctions sont nommées avec un ou deux tirets bas en préfixe pour indiquer leur usage restreint, selon les conventions de Python.
+
+Les fonctions protégées (préfixées par un seul _) sont utilisées à l'intérieur des classes ou par des sous-classes. Elles ne sont pas destinées à être appelées directement par les utilisateurs de la bibliothèque. C’est notamment le cas de plusieurs méthodes dans la classe State comme _possible_actions, _apply_action, _is_terminal, ou _evaluate, qui sont conçues pour être utilisées uniquement par les algorithmes internes (comme Minimax) ou l’arbre d’exploration. De même, des méthodes comme _expand dans Node sont réservées à la construction automatique de l’arbre.
+
+Une fonction privée (préfixée par __) est utilisée dans la classe GameTree. Il s'agit de __build_tree, qui gère la construction complète de l’arbre de recherche. Elle est volontairement masquée pour éviter toute modification ou appel extérieur, car elle contient des opérations critiques.
+
+L’adoption de ces conventions permet de séparer clairement ce qui relève de la logique interne et ce qui peut être utilisé ou redéfini par les développeurs. Cela contribue à la stabilité, la lisibilité et la sécurité du code dans l’ensemble du projet.
+
 
 ### Utilisation de la bibliothèque
 ### Pour les utilisateurs
