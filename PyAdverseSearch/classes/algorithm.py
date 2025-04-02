@@ -23,7 +23,7 @@ def choose_best_move(algo_name, game, state, **kwargs):
     if algo_name == 'minimax':
         from .minimax import Minimax
         AlgoClass = Minimax
-    # Vous pouvez ajouter d'autres algorithmes ici
+    # ajout des futurs algorithmes ICI
     else:
         raise ValueError(f"Algorithme inconnu : {algo_name}")
 
