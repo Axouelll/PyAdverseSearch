@@ -13,8 +13,13 @@ class Node:
         self.state = state
         self.parent = parent
         self.depth = depth
-        self.valuation = None
         self.children = []  # List of successor nodes
+        if self.is_terminal():
+            # Ici, self.state.game doit être correctement défini.
+            self.unity = self.state._utility()
+        else:
+            self.unity = None
+        self.valuation = self.state._evaluate()
         self.id = Node.next_id
         Node.next_id += 1
 
@@ -34,7 +39,7 @@ class Node:
     def display(self, depth=0):
         """Recursively displays the tree structure."""
         space  = "  " * depth
-        print(f"{space}Depth: {self.depth}, Player: {self.state.player}, Heuristic: {self.valuation}")
+        print(f"{space}Depth: {self.depth}, Player: {self.state.player}, Heuristic: {self.valuation}, Unity: {self.unity}")
         self.state.display()
         for child in self.children:
             child.display(depth + 1)

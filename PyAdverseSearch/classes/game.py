@@ -29,8 +29,6 @@ class Game:
         if self.state is not None:
             self.state.game = self
         print("[DEBUG] Dans Game.__init__: Après affectation, initial_state.game =", self.state.game)
-        self.tree = GameTree(initial_state=initial_state)
-        print("[DEBUG] Dans Game.__init__: Arbre construit.")
 
     # Rules
     def game_possible_actions(self, state):

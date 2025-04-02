@@ -1,31 +1,17 @@
-from PyAdverseSearch.classes.algorithm import SearchAlgorithm
-from PyAdverseSearch.classes.game import Game
-
+# FILE: PyAdverseSearch/classes/minimax.py
 
 import time
+from PyAdverseSearch.classes.algorithm import SearchAlgorithm
+from PyAdverseSearch.classes.node import Node
 
-"""
-Implementation of the Minimax algorithm.
-:param game: the game on which the algorithm is used
-:param max_depth: maximum depth allowed
-:param max_time_seconds: the time in seconds allowed for the algorithm to run.
-:return Node: the best next Node
-
-if neither max_depth nor max_time_seconds are supplied to the class constructor, the classic algorithm function will be used
-if max_depth is given, depth verification will be performed
-if max_time_seconds is given, the algorithm's execution time is verified
-if both are given, both depth and execution time will be checked
-"""
-
-class Minimax:
-    def __init__(self, game=None, max_depth=None, max_time_seconds=None):
-        # we check that if there is a max depth and/or a max time, that they are positive numbers and that max depth is an integer.
-        if max_depth is not None and ( max_depth <= 0 or not isinstance(max_depth, int) ) :
-            print("Error during the creation of a Minimax instance, max depth attribute must be a positive integer")
+class Minimax(SearchAlgorithm):
+    def __init__(self, game=None, max_depth=4, max_time_seconds=None):
+        # Vérification des paramètres
+        if max_depth is not None and (max_depth <= 0 or not isinstance(max_depth, int)):
+            print("Error: max_depth must be a positive integer")
             return
-        # max time can be an integer or a float (still has to be positiv and stricly above 0 though)
-        elif max_time_seconds is not None and ( max_time_seconds <= 0 or not isinstance(max_time_seconds, float) or not isinstance(max_time_seconds, int) ):
-            print("Error during the creation of a Minimax instance, max time attribute must be a positive integer or a positive float")
+        if max_time_seconds is not None and (max_time_seconds <= 0 or not isinstance(max_time_seconds, (int, float))):
+            print("Error: max_time_seconds must be a positive number")
             return
 
         self.game = game
@@ -34,7 +20,7 @@ class Minimax:
         self.start_time = None
 
         if self.max_depth is not None and self.max_time is not None:
-            print(f"[INFO] Combined mode: maximum depth ({self.max_depth}) and time limit ({self.max_time} sec)")
+            print(f"[INFO] Combined mode: max_depth = {self.max_depth} and max_time = {self.max_time} seconds")
         elif self.max_depth is not None:
             print(f"[INFO] Maximum depth mode (max_depth = {self.max_depth})")
         elif self.max_time is not None:
@@ -42,91 +28,78 @@ class Minimax:
         else:
             print("[INFO] Classic Minimax without constraints")
 
+ 
     def choose_best_move(self, state):
         """
-        Méthode de l'interface SearchAlgorithm.
-        À partir d'un état donné, retourne le meilleur coup en utilisant minimax.
+        Implémente la méthode de l'interface SearchAlgorithm.
+        À partir d'un état donné, génère les successeurs via _generate_successors()
+        et renvoie le meilleur état enfant en utilisant la valeur heuristique.
+        
+        Logique :
+        - Si un état enfant terminal a unity == 1, il est renvoyé immédiatement.
+        - Sinon, parmi tous les états successeurs, on retourne celui avec la meilleure évaluation heuristique.
         """
         self.start_time = time.time()
-        best_value = self.game.game_heuristic(state)  # Valeur initiale basée sur l'heuristique de l'état
-        best_move = None
+        best_value = self.game.game_heuristic(state)
+        best_state = None
 
-        # Pour chaque action possible depuis l'état courant, calcule la valeur minimax
-        for action in state.possible_actions():
-            child_state = state.apply_action(action)
-            value = self.min_value(child_state, current_depth=1)
-            if value > best_value:
-                best_value = value
-                best_move = action
+        print(f"[DEBUG] Évaluation initiale de l'état courant: {best_value}")
 
+        # On suppose que _generate_successors() retourne une liste d'états successeurs.
+        successors = state._generate_successors()
+        for idx, child_state in enumerate(successors):
+            # Crée un nœud temporaire pour évaluer cet état successeur
+            child_node = Node(child_state, parent=None, depth=1)
+            print(f"[DEBUG] Successeur {idx}: Heuristic = {child_node.valuation}, Unity = {child_node.unity}")
+            
+            # Si cet état est terminal et a unity == 1, c'est le meilleur cas possible pour MAX.
+            if child_node.unity == 1:
+                print(f"[DEBUG] Successeur {idx} est terminal avec unity == 1, retour immédiat de cet état.")
+                return child_state
+            
+            # Met à jour le meilleur état selon la valeur heuristique (valuation)
+            if child_node.valuation >= best_value:
+                best_value = child_node.valuation
+                best_state = child_state
+                print(f"[DEBUG] Successeur {idx} devient le meilleur état avec une nouvelle évaluation: {best_value}")
+            
             if self.time_limit_reached():
+                print("[DEBUG] Limite de temps atteinte, arrêt de l'exploration.")
                 break
 
-        return best_move
+        print(f"[DEBUG] Retour du meilleur état avec évaluation finale: {best_value}")
+        return best_state
+
     
-    def minimax_decision(self, node=None):
-        self.start_time = time.time()
-
-        best_value = game.heuristique(node.etat)
-        best_node = None
-
-        for n in node.children:
-            value = self.min_value(n, current_depth=1)
-
-            if value > best_value:
-                best_value = value
-                best_node = n
-
+    def min_value(self, state, current_depth=0):
+        if current_depth >= self.max_depth or state.is_terminal():
+            return self.game.game_heuristic(state)
+        min_eval = float('inf')
+        for action, child_state in state._generate_successors():
+            eval_value = self.max_value(child_state, current_depth + 1)
+            if eval_value < min_eval:
+                min_eval = eval_value
             if self.time_limit_reached():
                 break
+        return min_eval
 
-        return best_node
-
-    def max_value(self, node=None, current_depth=0):
-        if self.max_depth is not None and current_depth >= self.max_depth:
-            return game.heuristique(node.etat)
-
-        if self.time_limit_reached():
-            return game.heuristique(node.etat)
-
-        if node.state.is_terminal():
-            return self.game.utility(node.state)
-
-        v = -1
-        for n in node.children:
-            v = max(v, self.min_value(n, current_depth + 1))
-
+    def max_value(self, state, current_depth=0):
+        if current_depth >= self.max_depth or state.is_terminal():
+            return self.game.game_heuristic(state)
+        max_eval = -float('inf')
+        for action, child_state in state._generate_successors():
+            eval_value = self.min_value(child_state, current_depth + 1)
+            if eval_value > max_eval:
+                max_eval = eval_value
             if self.time_limit_reached():
                 break
+        return max_eval
 
-        return v
-
-    def min_value(self, node=None, current_depth=0):
-        if self.max_depth is not None and current_depth >= self.max_depth:
-            return game.heuristique(node.etat)
-
-        if self.time_limit_reached():
-            return game.heuristique(node.etat)
-
-        if node.state.is_terminal():
-            return self.game.utility(node.state)
-
-        v = game.heuristique(node.etat)
-        for n in node.children:
-            v = min(v, self.max_value(n, current_depth + 1))
-
-            if self.time_limit_reached():
-                break
-
-        return v
-
-    # function to check that the time limit has not been exceeded
-    # returns true if exceeded, false otherwise
     def time_limit_reached(self):
         if self.max_time is None:
             return False
-        elapsed_time = time.time() - self.start_time
-        return elapsed_time >= self.max_time
+        return (time.time() - self.start_time) >= self.max_time
+
 
     # If the node is terminal, it directly returns its utility value. Otherwise, it recursively calculates the total utility of all child nodes.
     def default_heuristic(self, node): 

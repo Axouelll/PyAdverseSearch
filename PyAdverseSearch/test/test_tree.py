@@ -5,21 +5,15 @@ from ..classes.tree import GameTree
 
 def test_tic_tac_toe_tree():
     print("\n🔵 TESTING FULL TIC-TAC-TOE TREE 🔵")
-    
-    # Crée le jeu via la fonction qui configure tout
+    # Par défaut, ne construit pas l'arbre dans Game
     game = generate_tictactoe_game()  
-    # Affiche l'état initial et sa référence au game
-    print("Etat initial du jeu (board):")
     game.state.display()
-    if game.state.game is None:
-        print("ERREUR : game.state.game est None")
-    else:
-        print("OK : game.state.game est bien initialisé.")
-    
-    # Construire l'arbre de jeu à partir de l'état initial
-    game_tree = GameTree(game.state)
-    print("\nAffichage de l'arbre de jeu :")
-    game_tree.display()
+
+    # Si vous souhaitez construire l'arbre, vous pouvez soit :
+    # a) Créer l'arbre directement
+    tree = GameTree(game.state)
+    tree.display()
+    # b) Ou, lors de l'initialisation du Game, passer build_tree=True (si generate_tictactoe_game() est adapté)
 
 if __name__ == "__main__":
     test_tic_tac_toe_tree()

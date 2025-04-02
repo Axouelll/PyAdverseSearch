@@ -51,7 +51,7 @@ class State(ABC):
 #?applyaction
     def _generate_successors(self):
         """Generates and returns all possible successor states."""
-        return [self.apply_action(action) for action in self._possible_actions()]
+        return [self._apply_action(action) for action in self._possible_actions()]
 
     def display(self):
         """Displays the current game state."""

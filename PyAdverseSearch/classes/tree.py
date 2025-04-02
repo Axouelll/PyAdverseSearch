@@ -18,12 +18,10 @@ class GameTree:
 
 
     def __build_tree(self, node):
-        # Affichage de la valeur heuristique de chaque nœud lors de sa création
-        print(f"Création du nœud - Profondeur: {node.depth}, Joueur: {node.state.player}, Valeur heuristique: {node.valuation}")
-
-        if node.is_terminal():
+        self.root.display()
+        if node.unity is not None:
             self.leaf += 1
-            return  # Arrête l'expansion si l'état est terminal
+            return  # Arrête l'expansion si le nœud est terminal
         elif node.depth < self.max_depth:
             node._expand()  # Génère les nœuds successeurs
             self.node_count += 1
@@ -33,4 +31,3 @@ class GameTree:
     def display(self):
         print("Nombre de nœuds :", self.node_count)
         print("Nombre de feuilles :", self.leaf)
-        self.root.display()
