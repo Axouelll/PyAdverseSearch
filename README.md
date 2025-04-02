@@ -1,6 +1,6 @@
 #  PyAdverseSearch
 
-##Table des matières
+## Table des matières
 
 [Présentation de PyAdverseSearch](#1---présentation-de-pyadversesearch)
 
