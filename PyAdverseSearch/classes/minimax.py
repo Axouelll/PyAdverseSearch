@@ -36,7 +36,7 @@ class Minimax(SearchAlgorithm):
         et renvoie le meilleur état enfant en utilisant la valeur heuristique.
 
         Logique :
-        - Si un état enfant terminal a unity == 1, il est renvoyé immédiatement.
+        - Si un état enfant terminal a utility == 1, il est renvoyé immédiatement.
         - Sinon, parmi tous les états successeurs, on retourne celui avec la meilleure évaluation heuristique.
         """
         self.start_time = time.time()
@@ -50,11 +50,11 @@ class Minimax(SearchAlgorithm):
         for idx, child_state in enumerate(successors):
             # Crée un nœud temporaire pour évaluer cet état successeur
             child_node = Node(child_state, parent=None, depth=1)
-            print(f"[DEBUG] Successeur {idx}: Heuristic = {child_node.valuation}, Unity = {child_node.unity}")
+            print(f"[DEBUG] Successeur {idx}: Heuristic = {child_node.valuation}, utility = {child_node.utility}")
 
-            # Si cet état est terminal et a unity == 1, c'est le meilleur cas possible pour MAX.
-            if child_node.unity == 1:
-                print(f"[DEBUG] Successeur {idx} est terminal avec unity == 1, retour immédiat de cet état.")
+            # Si cet état est terminal et a utility == 1, c'est le meilleur cas possible pour MAX.
+            if child_node.utility == 1:
+                print(f"[DEBUG] Successeur {idx} est terminal avec utility == 1, retour immédiat de cet état.")
                 return child_state
 
             # Met à jour le meilleur état selon la valeur heuristique (valuation)
@@ -116,7 +116,7 @@ class Minimax(SearchAlgorithm):
     def default_utility(self, node):
         if node.is_terminal():
             return node.state._utility()
-    
+
         if node.state.player == "MAX":
             return max(self.default_utility(child) for child in node.children)
         else:  # MIN
