@@ -16,4 +16,4 @@ def test_tic_tac_toe_tree():
     # b) Ou, lors de l'initialisation du Game, passer build_tree=True (si generate_tictactoe_game() est adapté)
 
 if __name__ == "__main__":
-    test_tic_tac_toe_tree()
+    test_tic_tac_toe_tree() 
