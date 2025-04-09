@@ -28,13 +28,13 @@ class Minimax(SearchAlgorithm):
         else:
             print("[INFO] Classic Minimax without constraints")
 
- 
+
     def choose_best_move(self, state):
         """
         Implémente la méthode de l'interface SearchAlgorithm.
         À partir d'un état donné, génère les successeurs via _generate_successors()
         et renvoie le meilleur état enfant en utilisant la valeur heuristique.
-        
+
         Logique :
         - Si un état enfant terminal a unity == 1, il est renvoyé immédiatement.
         - Sinon, parmi tous les états successeurs, on retourne celui avec la meilleure évaluation heuristique.
@@ -51,18 +51,18 @@ class Minimax(SearchAlgorithm):
             # Crée un nœud temporaire pour évaluer cet état successeur
             child_node = Node(child_state, parent=None, depth=1)
             print(f"[DEBUG] Successeur {idx}: Heuristic = {child_node.valuation}, Unity = {child_node.unity}")
-            
+
             # Si cet état est terminal et a unity == 1, c'est le meilleur cas possible pour MAX.
             if child_node.unity == 1:
                 print(f"[DEBUG] Successeur {idx} est terminal avec unity == 1, retour immédiat de cet état.")
                 return child_state
-            
+
             # Met à jour le meilleur état selon la valeur heuristique (valuation)
             if child_node.valuation >= best_value:
                 best_value = child_node.valuation
                 best_state = child_state
                 print(f"[DEBUG] Successeur {idx} devient le meilleur état avec une nouvelle évaluation: {best_value}")
-            
+
             if self.time_limit_reached():
                 print("[DEBUG] Limite de temps atteinte, arrêt de l'exploration.")
                 break
@@ -70,7 +70,7 @@ class Minimax(SearchAlgorithm):
         print(f"[DEBUG] Retour du meilleur état avec évaluation finale: {best_value}")
         return best_state
 
-    
+
     def min_value(self, state, current_depth=0):
         if current_depth >= self.max_depth or state.is_terminal():
             return self.game.game_heuristic(state)
@@ -102,7 +102,7 @@ class Minimax(SearchAlgorithm):
 
 
     # If the node is terminal, it directly returns its utility value. Otherwise, it recursively calculates the total utility of all child nodes.
-    def default_heuristic(self, node): 
+    def default_heuristic(self, node):
         if node.state.is_terminal():
             return self.game.utility(node.state)
 
@@ -111,6 +111,16 @@ class Minimax(SearchAlgorithm):
             total += self.default_heuristic(node_child)
 
         return total
+
+
+    def default_utility(self, node):
+        if node.is_terminal():
+            return node.state._utility()
+    
+        if node.state.player == "MAX":
+            return max(self.default_utility(child) for child in node.children)
+        else:  # MIN
+            return min(self.default_utility(child) for child in node.children)
 
 
 
@@ -189,8 +199,8 @@ class Minimax_Max_Depth:
 
     def max_value(self, node=None, current_depth=0):
         # Vérifie si la profondeur maximale est atteinte, si c'est le cas on renvoie l'heuristique du noeud courant
-        if current_depth >= self.max_depth:     
-            return game.heuristique(node.etat)  
+        if current_depth >= self.max_depth:
+            return game.heuristique(node.etat)
 
         if node.state.is_terminal():
             return self.game.utility(node.state)
@@ -245,7 +255,7 @@ class Minimax:
 
             # Vérifie si la limite de temps est dépassée, si c'est le cas on arrete l'execution de la boucle for
             if self.time_limit_reached():
-                break 
+                break
 
         return best_node
 
