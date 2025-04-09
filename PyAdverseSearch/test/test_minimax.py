@@ -14,7 +14,7 @@ def test_minimax_via_algorithm_selector():
     for i in range(move_count):
         print(f"\n--- Coup {i+1} ---")
         # On utilise l'algorithme pour obtenir le meilleur état à partir de l'état courant.
-        best_state = choose_best_move('minimax', game, state, max_depth=4)
+        best_state = choose_best_move('minimax', game, state, max_depth=6)
         if best_state is None:
             print("Aucun coup trouvé (état terminal ou erreur).")
             break
