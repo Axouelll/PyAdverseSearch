@@ -331,7 +331,7 @@ Une fonction privée (préfixée par __) est utilisée dans la classe GameTree. 
 
 L’adoption de ces conventions permet de séparer clairement ce qui relève de la logique interne et ce qui peut être utilisé ou redéfini par les développeurs. Cela contribue à la stabilité, la lisibilité et la sécurité du code dans l’ensemble du projet.
 
-## Pour les developpeurs 
+## 5- Pour les developpeurs 
 
 ## Guide de développement pour PyAdverseSearch
 
