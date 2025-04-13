@@ -13,6 +13,7 @@ class Node:
         self.state = state
         self.parent = parent
         self.depth = depth
+        self.player = None
         self.children = []  # List of successor nodes
         if self.is_terminal():
             # Ici, self.state.game doit être correctement défini.
@@ -22,13 +23,13 @@ class Node:
         self.valuation = self.state._evaluate()
         self.id = Node.next_id
         Node.next_id += 1
+        self.calculatePlayer() #call to the function that'll calculate who's playing according to the node's depth and who played the first move
 
-#?applyaction
     def _expand(self):
         """Generates all possible successor states and adds them as children."""
         for action in self.state._possible_actions():
             new_state = self.state._apply_action(action)
-            child_node = Node(new_state, parent=self, depth=self.depth + 1)
+            child_node = Node(state=new_state, parent=self, depth=self.depth + 1)
             self.children.append(child_node)
 
     def is_terminal(self):
@@ -43,3 +44,13 @@ class Node:
         self.state.display()
         for child in self.children:
             child.display(depth + 1)
+
+    #calculate who's playing according to the node's depth and who played the first move
+    def calculatePlayer(self):
+        isMaxStarting = self.state.game.isMaxStarting
+        if self.depth // 2 == 1 : #if depth odd
+            if isMaxStarting : self.player = "MAX"
+            else : self.player = "MIN"
+        else : 
+            if isMaxStarting : self.player = "MIN"
+            else : self.player = "MAX"

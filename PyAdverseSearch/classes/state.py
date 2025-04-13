@@ -3,18 +3,16 @@
 from abc import ABC, abstractmethod
 
 class State(ABC):
-    def __init__(self, board, player, parent=None, game=None):
+    def __init__(self, board, parent=None, game=None):
         """
         Generic class for all discrete-state games.
 
         :param board: Representation of the game state.
-        :param player: Current player ('MAX' or 'MIN').
         :param parent: Previous state (useful for the search tree).
         :param game: Reference to the instance of the Game class that's being used for this state,
                      used to get access to the is_terminal function given by the user
         """
         self.board = board
-        self.player = player
         self.parent = parent
         self.value = None  # (optionnel) peut servir pour un stockage temporaire
         self.game = game  # référence au Game pour accéder aux fonctions définies par l'utilisateur
