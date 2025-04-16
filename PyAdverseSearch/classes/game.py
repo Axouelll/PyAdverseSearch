@@ -11,7 +11,7 @@ class Game:
     that defines who is the winner.
     """
 
-    def __init__(self, initial_state=None, possible_actions=None, is_terminal=None, winner_function=None, utility=None, heuristic=None):
+    def __init__(self, initial_state=None, possible_actions=None, is_terminal=None, winner_function=None, utility=None, heuristic=None, isMaxStarting=True):
         # param initial_state: The initial state of the game.
         # param possible_actions: The function that defines possible actions from a given state.
         # param is_terminal: The function that checks if the game has reached a final state (ended).
@@ -25,6 +25,7 @@ class Game:
         self.winner_function = winner_function
         self.utility = utility
         self.heuristic = heuristic
+        self.isMaxStarting = isMaxStarting
         print("[DEBUG] Dans Game.__init__: Avant affectation, initial_state.game =", getattr(self.state, "game", None))
         if self.state is not None:
             self.state.game = self
