@@ -112,7 +112,6 @@ class Minimax(SearchAlgorithm):
 
         return total
 
-
     def default_utility(self, node):
         if node.is_terminal():
             return node.state._utility()
@@ -121,6 +120,22 @@ class Minimax(SearchAlgorithm):
             return max(self.default_utility(child) for child in node.children)
         else:  # MIN
             return min(self.default_utility(child) for child in node.children)
+
+    def next_move(self, node):
+        if not node.children:
+            return None  # Aucun coup possible
+
+        # Calculer la valeur utilitaire de chaque enfant
+        child_utilities = [(child, self.default_utility(child)) for child in node.children]
+
+        if node.state.player == "MAX":
+            # Retourner l'enfant avec la plus haute utilité
+            best_child = max(child_utilities, key=lambda x: x[1])[0]
+        else:  # player == "MIN"
+            # Retourner l'enfant avec la plus basse utilité
+            best_child = min(child_utilities, key=lambda x: x[1])[0]
+
+        return best_child
 
 
 
