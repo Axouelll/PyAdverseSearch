@@ -31,19 +31,6 @@ PyAdverseSearch est une bibliothèque Python spécialisée dans la programmation
 
 La bibliothèque s'articule autour de plusieurs classes fondamentales, chacune ayant un rôle spécifique dans l'architecture globale :
 
-#### Classes principales et leurs rôles
-
-- **Classe Game** : Représente un jeu et ses règles. Elle définit la logique fondamentale du jeu, notamment les actions légales, les transitions d'état, et les conditions de fin de partie. Cette classe est abstraite et doit être étendue pour implémenter un jeu spécifique.
-
-- **Classe State** : Modélise un état du jeu à un moment précis. Elle encapsule toutes les informations nécessaires pour décrire complètement la configuration du jeu : positions des pièces, joueur actif, historique des coups, etc.
-
-- **Classe Node** : Représente un nœud dans l'arbre d'exploration. Chaque nœud est associé à un état du jeu et maintient des références vers son parent et ses enfants, ainsi que des informations d'évaluation.
-
-- **Classe Tree** : Gère la structure arborescente utilisée pour l'exploration des possibilités de jeu. Elle facilite la construction, la navigation et la manipulation de l'arbre de recherche.
-
-- **Classe Minimax** : Implémente l'algorithme Minimax, une technique fondamentale d'exploration adverse qui alterne entre la maximisation du gain pour un joueur et la minimisation pour l'autre, permettant de déterminer la meilleure action à entreprendre.
-
-Ces composants travaillent ensemble pour permettre une analyse approfondie des jeux et la sélection de mouvements optimaux dans divers contextes.
 
 ## 2 - Structure du projet et utilisation
 
@@ -311,6 +298,21 @@ Ce fichier README s'adresse aux développeurs souhaitant reprendre, étendre ou 
 
 PyAdverseSearch est structurée pour permettre une exploration adverse efficace dans des jeux à deux joueurs à somme nulle. Elle s’appuie sur des classes abstraites à spécialiser pour chaque jeu, ainsi qu’un arbre d’exploration et des algorithmes comme Minimax. La bibliothèque est conçue pour être facilement extensible, tout en respectant une architecture bien définie.
 
+#### Classes principales et leurs rôles
+
+- **Classe Game** : Représente un jeu et ses règles. Elle définit la logique fondamentale du jeu, notamment les actions légales, les transitions d'état, et les conditions de fin de partie. Cette classe est abstraite et doit être étendue pour implémenter un jeu spécifique.
+
+- **Classe State** : Modélise un état du jeu à un moment précis. Elle encapsule toutes les informations nécessaires pour décrire complètement la configuration du jeu : positions des pièces, joueur actif, historique des coups, etc.
+
+- **Classe Node** : Représente un nœud dans l'arbre d'exploration. Chaque nœud est associé à un état du jeu et maintient des références vers son parent et ses enfants, ainsi que des informations d'évaluation.
+
+- **Classe Tree** : Gère la structure arborescente utilisée pour l'exploration des possibilités de jeu. Elle facilite la construction, la navigation et la manipulation de l'arbre de recherche.
+
+- **Classe Minimax** : Implémente l'algorithme Minimax, une technique fondamentale d'exploration adverse qui alterne entre la maximisation du gain pour un joueur et la minimisation pour l'autre, permettant de déterminer la meilleure action à entreprendre.
+
+Ces composants travaillent ensemble pour permettre une analyse approfondie des jeux et la sélection de mouvements optimaux dans divers contextes.
+
+
 ## Structure interne du projet
 
 Le dossier principal contient un répertoire class/ qui regroupe les classes essentielles : State, Game, Node, Tree, Minimax, ainsi qu'une interface SearchAlgorithm. Le dossier test/ contient des implémentations concrètes de jeux comme le Tic Tac Toe ou le Puissance 4. Ces exemples servent à la fois de démonstration et de base pour les tests automatisés ou manuels.
@@ -333,7 +335,7 @@ Les méthodes préfixées par un seul tiret bas (_) sont dites protégées. Elle
 
 Une seule méthode privée est définie dans le projet : __build_tree, au sein de la classe GameTree. Le double underscore (__) déclenche un mécanisme de masquage de nom en Python (name mangling) afin de limiter strictement son accès à la classe elle-même. Cette méthode étant responsable de la construction complète et récursive de l’arbre, elle est rendue privée pour garantir l'intégrité de la structure et éviter toute manipulation externe non contrôlée.
 
-Ces conventions d'encapsulation permettent de maintenir la séparation entre l'interface utilisateur (à modifier ou spécialiser) et l'infrastructure interne (à manipuler avec précaution), ce qui facilite la maintenance et la robustesse de la bibliothèque.
+Ces conventions d'encapsulation permettent de maintenir la séparation entre l'interface utilisateur et l'infrastructure interne, ce qui facilite la maintenance et la robustesse de la bibliothèque.
 
 ## Étendre la bibliothèque : ajout d’un nouveau jeu
 
