@@ -28,115 +28,123 @@ class Minimax(SearchAlgorithm):
         else:
             print("[INFO] Classic Minimax without constraints")
 
-
     def choose_best_move(self, state):
         """
-        Implémente la méthode de l'interface SearchAlgorithm.
-        À partir d'un état donné, génère les successeurs via _generate_successors()
-        et renvoie le meilleur état enfant en utilisant la valeur heuristique.
-
-        Logique :
-        - Si un état enfant terminal a utility == 1, il est renvoyé immédiatement.
-        - Sinon, parmi tous les états successeurs, on retourne celui avec la meilleure évaluation heuristique.
+        Sélectionne le meilleur coup pour le joueur courant (MAX ou MIN),
+        en priorisant les états terminaux (utility × 1000), puis en appelant
+        min_value ou max_value selon le joueur, et en comparant scores.
         """
-        self.start_time = time.time()
-        best_value = self.game.game_heuristic(state)
+        is_max = (state.player == "MAX")
+        print(f"[DEBUG] choose_best_move for {'MAX' if is_max else 'MIN'}")
+        state.display()
+        print(f"Depth limit: {self.max_depth}\n")
+
+        best_score = -float('inf') if is_max else float('inf')
         best_state = None
 
-        print(f"[DEBUG] Évaluation initiale de l'état courant: {best_value}")
+        for action in state._possible_actions():
+            child = state._apply_action(action)
 
-        # On suppose que _generate_successors() retourne une liste d'états successeurs.
-        successors = state._generate_successors()
-        for idx, child_state in enumerate(successors):
-            # Crée un nœud temporaire pour évaluer cet état successeur
-            child_node = Node(child_state, parent=None, depth=1)
-            print(f"[DEBUG] Successeur {idx}: Heuristic = {child_node.valuation}, utility = {child_node.utility}")
+            # terminal → score fixe très fort
+            if self.game.game_is_terminal(child):
+                util = self.game.game_utility(child)
+                score = util * 1000
+                print(f"[DEBUG] Action {action}: terminal utility={util}, score={score}")
+            else:
+                # non-terminal → on intercale MAX et MIN
+                if is_max:
+                    score = self.min_value(child, self.max_depth - 1)
+                    print(f"[DEBUG] Action {action}: min_value score={score}")
+                else:
+                    score = self.max_value(child, self.max_depth - 1)
+                    print(f"[DEBUG] Action {action}: max_value score={score}")
 
-            # Si cet état est terminal et a utility == 1, c'est le meilleur cas possible pour MAX.
-            if child_node.utility == 1:
-                print(f"[DEBUG] Successeur {idx} est terminal avec utility == 1, retour immédiat de cet état.")
-                return child_state
+            # sélection selon MAX ou MIN
+            if (is_max and score > best_score) or (not is_max and score < best_score):
+                best_score = score
+                best_state = child
+                print(f"[DEBUG] New best action: {action} with score {score}\n")
 
-            # Met à jour le meilleur état selon la valeur heuristique (valuation)
-            if child_node.valuation >= best_value:
-                best_value = child_node.valuation
-                best_state = child_state
-                print(f"[DEBUG] Successeur {idx} devient le meilleur état avec une nouvelle évaluation: {best_value}")
-
-            if self.time_limit_reached():
-                print("[DEBUG] Limite de temps atteinte, arrêt de l'exploration.")
-                break
-
-        print(f"[DEBUG] Retour du meilleur état avec évaluation finale: {best_value}")
+        print(f"[DEBUG] choose_best_move end: best_score={best_score}")
         return best_state
 
 
-    def min_value(self, state, current_depth=0):
-        if current_depth >= self.max_depth or state.is_terminal():
-            return self.game.game_heuristic(state)
-        min_eval = float('inf')
-        for action, child_state in state._generate_successors():
-            eval_value = self.max_value(child_state, current_depth + 1)
-            if eval_value < min_eval:
-                min_eval = eval_value
-            if self.time_limit_reached():
-                break
-        return min_eval
 
-    def max_value(self, state, current_depth=0):
-        if current_depth >= self.max_depth or state.is_terminal():
+    def max_value(self, state, depth):
+        """
+        Renvoie la plus grande valeur (utility ou heuristic) pour MAX.
+        """
+        # Terminal state
+        if self.game.game_is_terminal(state):
+            return self.game.game_utility(state)
+        # Depth cutoff: return heuristic
+        if depth == 0:
             return self.game.game_heuristic(state)
-        max_eval = -float('inf')
-        for action, child_state in state._generate_successors():
-            eval_value = self.min_value(child_state, current_depth + 1)
-            if eval_value > max_eval:
-                max_eval = eval_value
-            if self.time_limit_reached():
-                break
-        return max_eval
+
+        v = -float('inf')
+        for action in state._possible_actions():
+            child = state._apply_action(action)
+            v = max(v, self.min_value(child, depth - 1))
+        return v
+
+    def min_value(self, state, depth):
+        """
+        Renvoie la plus petite valeur (utility ou heuristic) pour MIN.
+        """
+        # Terminal state
+        if self.game.game_is_terminal(state):
+            return self.game.game_utility(state)
+        # Depth cutoff: return heuristic
+        if depth == 0:
+            return self.game.game_heuristic(state)
+
+        v = float('inf')
+        for action in state._possible_actions():
+            child = state._apply_action(action)
+            v = min(v, self.max_value(child, depth - 1))
+        return v
+
 
     def time_limit_reached(self):
         if self.max_time is None:
             return False
         return (time.time() - self.start_time) >= self.max_time
 
-
-    # If the node is terminal, it directly returns its utility value. Otherwise, it recursively calculates the total utility of all child nodes.
-    def default_heuristic(self, node):
-        if node.state.is_terminal():
-            return self.game.utility(node.state)
-
-        total = 0
-        for node_child in node.children:
-            total += self.default_heuristic(node_child)
-
-        return total
-
+    # If the node is terminal, it directly returns its utility value.
+    # Otherwise, it recursively calculates utilities of all children.
     def default_utility(self, node):
         if node.is_terminal():
             return node.state._utility()
+
+        # Si pas d'enfants, on retourne l'évaluation heuristique du nœud
+        if not node.children:
+            return node.valuation
 
         if node.state.player == "MAX":
             return max(self.default_utility(child) for child in node.children)
         else:  # MIN
             return min(self.default_utility(child) for child in node.children)
 
+    def default_heuristic(self, node):
+        if node.state._is_terminal():
+            return self.game.game_utility(node.state)
+
+        total = 0
+        for child in node.children:
+            total += self.default_heuristic(child)
+        return total
+
     def next_move(self, node):
         if not node.children:
-            return None  # Aucun coup possible
+            return None
 
-        # Calculer la valeur utilitaire de chaque enfant
-        child_utilities = [(child, self.default_utility(child)) for child in node.children]
-
+        # Évalue chaque enfant
+        child_utils = [(child, self.default_utility(child)) for child in node.children]
         if node.state.player == "MAX":
-            # Retourner l'enfant avec la plus haute utilité
-            best_child = max(child_utilities, key=lambda x: x[1])[0]
-        else:  # player == "MIN"
-            # Retourner l'enfant avec la plus basse utilité
-            best_child = min(child_utilities, key=lambda x: x[1])[0]
-
+            best_child = max(child_utils, key=lambda x: x[1])[0]
+        else:
+            best_child = min(child_utils, key=lambda x: x[1])[0]
         return best_child
-
 
 
 
@@ -314,4 +322,31 @@ class Minimax:
         elapsed_time = time.time() - self.start_time
         return elapsed_time >= self.max_time
 
+"""
+"""
+def choose_best_move(self, state):
+        is_max = (state.player == "MAX")
+        best_score = -float('inf') if is_max else float('inf')
+        best_state = None
+
+        for action in state._possible_actions():
+            child = state._apply_action(action)
+
+            # Score terminal, on priorise utility × 1000
+            if self.game.game_is_terminal(child):
+                score = self.game.game_utility(child) * 1000
+            else:
+                # Après un coup de MAX, c’est MIN qui joue => min_value
+                # Après un coup de MIN, c’est MAX qui joue => max_value
+                if is_max:
+                    score = self.min_value(child, self.max_depth - 1)
+                else:
+                    score = self.max_value(child, self.max_depth - 1)
+
+            # Choix selon MAX ou MIN
+            if (is_max and score > best_score) or (not is_max and score < best_score):
+                best_score = score
+                best_state = child
+
+        return best_state
 """
