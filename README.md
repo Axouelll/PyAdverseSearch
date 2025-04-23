@@ -275,19 +275,9 @@ La classe Tree gère la structure globale de l'arbre d'exploration et fournit de
 
 
 
-### recommandation du chat : Outils et utilitaires
+### Outils et utilitaires
 
-En plus des classes principales, PyAdverseSearch fournit plusieurs modules utilitaires pour faciliter le développement, l'analyse et la visualisation.
-
-#### Module tools.py
-
-Le module tools.py offre diverses fonctions utilitaires pour :
-
-- Convertir entre différentes représentations du plateau
-- Calculer des heuristiques communes
-- Manipuler efficacement les structures de données
-- Optimiser certaines opérations fréquentes
-- Analyser les performances des algorithmes
+En plus des classes principales, PyAdverseSearch fournit notamment un module utilitaire pour faciliter le développement et la visualisation.
 
 #### Module visualization.py
 
@@ -298,26 +288,6 @@ Le module visualization.py fournit des outils pour :
 - Animer le processus d'exploration
 - Générer des diagrammes d'analyse
 - Exporter des visualisations pour documentation
-
-#### Module logger.py
-
-Le module logger.py permet de :
-
-- Journaliser les étapes d'exécution des algorithmes
-- Enregistrer les décisions prises durant une partie
-- Suivre les performances et l'utilisation des ressources
-- Faciliter le débogage des implémentations
-- Générer des rapports d'analyse
-
-#### Module config.py
-
-Le module config.py centralise :
-
-- Les paramètres globaux de la bibliothèque
-- Les configurations par défaut des algorithmes
-- Les constantes utilisées dans le projet
-- Les options de personnalisation
-- Les profils de configuration prédéfinis
 
 L'utilisation judicieuse de ces modules permet d'améliorer significativement l'efficacité du développement et la qualité des analyses réalisées avec PyAdverseSearch.
 
