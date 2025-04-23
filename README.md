@@ -365,7 +365,7 @@ L’affichage des états est géré par la méthode display() dans chaque sous-c
 
 ## Collaboration et bonnes pratiques
 
-Les contributions au projet peuvent se faire via GitHub. Chaque fonctionnalité doit être développée sur une branche dédiée. Toute nouvelle classe ou méthode importante doit être documentée. Il est également recommandé de conserver une certaine homogénéité dans les messages de commit, les noms de fichiers et les logs (print("[DEBUG] ...")).
+Les contributions au projet se font via GitHub. Chaque fonctionnalité doit être développée sur une branche dédiée. Toute nouvelle classe ou méthode importante doit être documentée. Il est également recommandé de conserver une certaine homogénéité dans les messages de commit, les noms de fichiers et les logs (print("[DEBUG] ...")).
 
 Ce guide vise à fournir aux développeurs toutes les informations nécessaires pour comprendre, utiliser et faire évoluer PyAdverseSearch de manière structurée et efficace.
 
