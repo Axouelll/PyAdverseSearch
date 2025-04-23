@@ -319,11 +319,11 @@ Le dossier principal contient un répertoire class/ qui regroupe les classes ess
 
 ## Conception orientée objet et hiérarchie
 
-La classe State est abstraite et doit être étendue pour chaque jeu. Elle définit les éléments nécessaires à la modélisation d’un état de jeu : le plateau (board), le joueur actif (player), l’état parent, et une référence à l’instance de la classe Game pour appeler dynamiquement les fonctions du jeu. Chaque état doit donc implémenter les méthodes publiques possible_actions, apply_action, is_terminal, et evaluate, qui définissent respectivement les actions valides, la transition d’un état à un autre, la condition de fin de partie, et l’évaluation heuristique.
+La classe State est abstraite et doit être étendue pour chaque jeu. Elle définit les éléments nécessaires à la modélisation d’un état de jeu : le plateau (board), l’état parent, et une référence à l’instance de la classe Game pour appeler dynamiquement les fonctions du jeu. Chaque état doit donc implémenter les méthodes publiques possible_actions, apply_action, is_terminal, et evaluate, qui définissent respectivement les actions valides, la transition d’un état à un autre, la condition de fin de partie, et l’évaluation heuristique.
 
 La classe Game est le point d’entrée utilisateur. Elle permet d’associer des fonctions spécifiques à un jeu donné à une instance globale, en centralisant les règles, la fonction de fin, l’utilité et l’heuristique. Elle construit automatiquement un arbre d’exploration à partir de l’état initial, via la classe GameTree.
 
-La classe Node représente chaque nœud de l’arbre de jeu. Elle encapsule un état, ses enfants, son parent, un identifiant unique et sa profondeur. La construction de l’arbre est déléguée à GameTree, dont la méthode privée __build_tree() s’occupe de générer récursivement tous les nœuds à partir de la racine.
+La classe Node représente chaque nœud de l’arbre de jeu. Elle encapsule un état, ses enfants, le joueur,  son parent, un identifiant unique et sa profondeur. La construction de l’arbre est déléguée à GameTree, dont la méthode privée __build_tree() s’occupe de générer récursivement tous les nœuds à partir de la racine.
 
 L’algorithme Minimax est implémenté dans sa propre classe. Il propose trois modes d'exécution : classique (sans limite), avec profondeur maximale, et avec limite de temps. La méthode principale choose_best_move permet de déterminer le meilleur coup à jouer à partir d’un état donné.
 
