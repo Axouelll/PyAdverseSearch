@@ -18,7 +18,7 @@ class Game:
         # param winner_function: The function that determines the winner once the game is finished.
         # param utility: evaluates a terminal state to determine the final outcome of the game.
         # param heuristic: function to evaluate non-terminal states (returns a numerical value)
-       
+
         self.state = initial_state
         self.possible_actions = possible_actions
         self.is_terminal = is_terminal
@@ -26,10 +26,8 @@ class Game:
         self.utility = utility
         self.heuristic = heuristic
         self.isMaxStarting = isMaxStarting
-        print("[DEBUG] Dans Game.__init__: Avant affectation, initial_state.game =", getattr(self.state, "game", None))
         if self.state is not None:
             self.state.game = self
-        print("[DEBUG] Dans Game.__init__: Après affectation, initial_state.game =", self.state.game)
 
     # Rules
     def game_possible_actions(self, state):
@@ -40,7 +38,7 @@ class Game:
     def game_is_terminal(self, state):
         # Checks if the game is over using the is_terminal function on the state given through the parameter.
         return self.is_terminal(state)
-    
+
     def game_utility(self, state):
         # returns a numerical value based on if the game has been lost or won (or if it's a draw) by the player 'Max'
         # only call this function if the state is terminal (see game_is_terminal)

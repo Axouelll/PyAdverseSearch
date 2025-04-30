@@ -51,6 +51,6 @@ class Node:
         if self.depth // 2 == 1 : #if depth odd
             if isMaxStarting : self.player = "MAX"
             else : self.player = "MIN"
-        else : 
+        else :
             if isMaxStarting : self.player = "MIN"
             else : self.player = "MAX"
