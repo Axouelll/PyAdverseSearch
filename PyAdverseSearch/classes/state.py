@@ -46,7 +46,6 @@ class State(ABC):
         """
         return self.game.game_heuristic(self)
 
-#?applyaction
     def _generate_successors(self):
         """Generates and returns all possible successor states."""
         return [self._apply_action(action) for action in self._possible_actions()]
