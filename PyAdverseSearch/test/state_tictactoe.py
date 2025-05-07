@@ -148,7 +148,8 @@ def generate_tictactoe_game():
         is_terminal=is_terminal,
         winner_function=winner_function,
         utility=utility,
-        heuristic=heuristic
+        heuristic=heuristic,
+        isMaxStarting=True
     )
     initial_state.game = game
     return game

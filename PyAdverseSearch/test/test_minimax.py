@@ -18,7 +18,7 @@ def test_minimax_via_algorithm_selector():
 
 
         # Choisir le meilleur coup via Minimax
-        best_state = choose_best_move('minimax', game, state, max_depth=6)
+        best_state = choose_best_move('minimax', game, state, max_depth=9)
         if best_state is None:
             print("Aucun coup trouvé (état terminal ou erreur).")
             break
