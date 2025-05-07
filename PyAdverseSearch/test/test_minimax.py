@@ -32,6 +32,9 @@ def test_minimax_via_algorithm_selector():
             print("État terminal atteint.")
             break
 
+        input("Appuie sur Entrée pour continuer...")
+
+
 
 if __name__ == "__main__":
     test_minimax_via_algorithm_selector()

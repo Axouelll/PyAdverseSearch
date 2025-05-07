@@ -19,14 +19,6 @@ class Minimax(SearchAlgorithm):
         self.max_time = max_time_seconds
         self.start_time = None
 
-        if self.max_depth is not None and self.max_time is not None:
-            print(f"[INFO] Combined mode: max_depth = {self.max_depth} and max_time = {self.max_time} seconds")
-        elif self.max_depth is not None:
-            print(f"[INFO] Maximum depth mode (max_depth = {self.max_depth})")
-        elif self.max_time is not None:
-            print(f"[INFO] Time limit mode (max_time = {self.max_time} seconds)")
-        else:
-            print("[INFO] Classic Minimax without constraints")
 
     def choose_best_move(self, state):
         """
@@ -35,9 +27,7 @@ class Minimax(SearchAlgorithm):
         min_value ou max_value selon le joueur, et en comparant scores.
         """
         is_max = (state.player == "MAX")
-        print(f"[DEBUG] choose_best_move for {'MAX' if is_max else 'MIN'}")
-        state.display()
-        print(f"Depth limit: {self.max_depth}\n")
+
 
         best_score = -float('inf') if is_max else float('inf')
         best_state = None
@@ -49,26 +39,19 @@ class Minimax(SearchAlgorithm):
             if self.game.game_is_terminal(child):
                 util = self.game.game_utility(child)
                 score = util * 1000
-                print(f"[DEBUG] Action {action}: terminal utility={util}, score={score}")
             else:
                 # non-terminal → on intercale MAX et MIN
                 if is_max:
                     score = self.min_value(child, self.max_depth - 1)
-                    print(f"[DEBUG] Action {action}: min_value score={score}")
                 else:
                     score = self.max_value(child, self.max_depth - 1)
-                    print(f"[DEBUG] Action {action}: max_value score={score}")
 
             # sélection selon MAX ou MIN
             if (is_max and score > best_score) or (not is_max and score < best_score):
                 best_score = score
                 best_state = child
-                print(f"[DEBUG] New best action: {action} with score {score}\n")
 
-        print(f"[DEBUG] choose_best_move end: best_score={best_score}")
         return best_state
-
-
 
     def max_value(self, state, depth):
         """
