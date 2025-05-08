@@ -137,7 +137,7 @@ def winner_function(state):
     return None
 
 
-def generate_tictactoe_game():
+def generate_tictactoe_game(isMaxStartingParameter=True):
     """
     Factory: builds a Game configured for Tic-Tac-Toe.
     """
@@ -149,7 +149,7 @@ def generate_tictactoe_game():
         winner_function=winner_function,
         utility=utility,
         heuristic=heuristic,
-        isMaxStarting=True
+        isMaxStarting=isMaxStartingParameter
     )
     initial_state.game = game
     return game
