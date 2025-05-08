@@ -1,5 +1,5 @@
 # FILE: PyAdverseSearch/test/test_minimax.py
-# python -m PyAdverseSearch.test.test_minimax
+# commande a execute pour tester : python -m PyAdverseSearch.test.test_minimax
 
 
 from .state_tictactoe import generate_tictactoe_game
@@ -58,6 +58,7 @@ def test_minimax_via_algorithm_selector_human_player():
                 except ValueError:
                     print("Invalid input! Please enter a numeric value.")
             
+        # printing who won
         if state._is_terminal():
             print("Final state reached.")
             winner = game.winner_function(state)
