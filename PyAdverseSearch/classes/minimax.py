@@ -5,7 +5,7 @@ from PyAdverseSearch.classes.algorithm import SearchAlgorithm
 from PyAdverseSearch.classes.node import Node
 
 class Minimax(SearchAlgorithm):
-    def __init__(self, game=None, max_depth=4, max_time_seconds=None):
+    def __init__(self, game=None, max_depth=9, max_time_seconds=None):
         #verifying parameters
         if max_depth is not None and (max_depth <= 0 or not isinstance(max_depth, int)):
             print("Error: max_depth must be a positive integer")
