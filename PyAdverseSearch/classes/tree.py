@@ -1,29 +1,19 @@
-# FILE: tree.py
-
 from .node import Node
 
 class GameTree:
     def __init__(self, initial_state, max_depth=float('inf')):
-        """
-        Constructs a full game tree starting from an initial state.
-
-        :param initial_state: The starting state of the game.
-        :param max_depth: The maximum depth to explore in the tree.
-        """
         self.root = Node(initial_state, parent=None, depth=0)
         self.node_count = 0
         self.leaf = 0
         self.max_depth = max_depth
         self.__build_tree(self.root)
 
-
     def __build_tree(self, node):
-        self.root.display()
-        if node.unity is not None:
+        if node.utility is not None:
             self.leaf += 1
-            return  # Arrête l'expansion si le nœud est terminal
+            return
         elif node.depth < self.max_depth:
-            node._expand()  # Génère les nœuds successeurs
+            node._expand()
             self.node_count += 1
             for child in node.children:
                 self.__build_tree(child)
@@ -31,3 +21,4 @@ class GameTree:
     def display(self):
         print("Nombre de nœuds :", self.node_count)
         print("Nombre de feuilles :", self.leaf)
+        self.root.display()
