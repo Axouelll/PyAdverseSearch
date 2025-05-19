@@ -24,6 +24,9 @@ def choose_best_move(algo_name, game, state, **kwargs):
         from .minimax import Minimax
         AlgoClass = Minimax
     # ajout des futurs algorithmes ICI
+    elif algo_name == 'montecarlo':
+        from .montecarlo import MonteCarlo
+        AlgoClass = MonteCarlo
     else:
         raise ValueError(f"Algorithme inconnu : {algo_name}")
 

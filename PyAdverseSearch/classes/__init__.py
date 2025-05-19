@@ -4,3 +4,4 @@ from .tree import GameTree
 from .game import Game
 from .minimax import Minimax
 from .algorithm import SearchAlgorithm
+from .montecarlo import MonteCarlo
