@@ -371,7 +371,7 @@ Chaque jeu implémente les méthodes requises (apply_action(), evaluate(), possi
 
 ## 7 - Interaction homme vs IA (jouer contre Minimax)
 
-Depuis la branche dev, il est désormais possible de jouer directement contre l’algorithme Minimax à partir de la console. Cette fonctionnalité a été ajoutée dans le fichier state_tictactoe.py, comme l'indique le message de commit "human player can start".
+Depuis la branche dev, il est désormais possible de jouer directement contre l’algorithme Minimax à partir de la console. Cette fonctionnalité a été ajoutée dans le fichier state_tictactoe.py.
 Cela permet à un utilisateur humain de jouer contre l'IA tour par tour.
 Cette fonctionnalité illustre la capacité du moteur Minimax à interagir dynamiquement dans une vraie partie, avec calcul en temps réel du meilleur coup à jouer. Elle montre également la robustesse de l'intégration entre State, Minimax, et l'interface utilisateur.
 
