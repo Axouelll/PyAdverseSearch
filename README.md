@@ -371,15 +371,24 @@ Chaque jeu implémente les méthodes requises (apply_action(), evaluate(), possi
 
 ## 7 - Interaction homme vs IA (jouer contre Minimax)
 
-Depuis la branche dev, il est désormais possible de jouer directement contre l’algorithme Minimax à partir de la console. Cette fonctionnalité a été ajoutée dans le fichier state_tictactoe.py.
-Cela permet à un utilisateur humain de jouer contre l'IA tour par tour.
-Cette fonctionnalité illustre la capacité du moteur Minimax à interagir dynamiquement dans une vraie partie, avec calcul en temps réel du meilleur coup à jouer. Elle montre également la robustesse de l'intégration entre State, Minimax, et l'interface utilisateur.
+Depuis la branche dev, il est désormais possible de jouer contre l’algorithme Minimax dans plusieurs jeux. Cette fonctionnalité permet à un utilisateur humain d’interagir en temps réel avec l’IA, en alternant les tours et en observant les choix stratégiques effectués par l’algorithme.
+Dans le fichier state_tictactoe.py, une première version de cette interaction a été intégrée, offrant la possibilité de simuler un affrontement en console entre un joueur humain et l'algorithme Minimax appliqué au jeu du morpion (Tic Tac Toe).
+Cette logique a ensuite été étendue au jeu du Puissance 4. Le test propose une interface utilisateur en ligne de commande où :
+
+Le joueur choisit s’il souhaite commencer la partie ou laisser l’IA jouer en premier.
+
+L’algorithme Minimax est appliqué avec une profondeur configurable (jusqu’à 6).
+
+Les coups possibles sont affichés, et le joueur sélectionne manuellement son option.
+
+La partie progresse jusqu’à ce qu’un état terminal soit atteint (victoire ou match nul).
+
 
 ## 8 - Algorithmes supplémentaires : Monte Carlo
 
 En plus de Minimax, une version expérimentale de l'algorithme Monte Carlo est présente dans le fichier montecarlo.py. Il s'agit d'un algorithme basé sur des simulations répétées aléatoires de parties, permettant d'évaluer les actions non pas par calcul exhaustif, mais par échantillonnage probabiliste.
 La méthode principale de cette classe est choose_best_move(state), comme dans Minimax, et elle peut être utilisée de manière interchangeable pour certains jeux.
-Une démonstration de cet algorithme est visible dans test/test_montecarlo.py.
+
 
 ## 9 - Tests unitaires complets
 
