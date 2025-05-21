@@ -10,7 +10,17 @@
 
 [Outils et modules utilitaires](#recommandation-du-chat--outils-et-utilitaires)
 
+[Fonctions Privées et protégées](#4--fonctions-privées-et-protégées)
 
+[Pour les developpeurs](#5--pour-les-developpeurs)
+
+[Jeux intégrés disponibles](#6---jeux-intégrés-disponibles)
+
+[Interaction homme VS IA](#7---interaction-homme-vs-ia-jouer-contre-minimax)
+
+[Monte Carlo](#8---algorithmes-supplémentaires--monte-carlo)
+
+[Tests unitaires complets](#9---tests-unitaires-complets)
 [Conclusion](#conclusion)
 
 
