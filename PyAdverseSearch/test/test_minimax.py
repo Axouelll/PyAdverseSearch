@@ -128,7 +128,7 @@ def test_minimax_via_algorithm_selector_human_player_connect4():
         #max is playing
         if current_player_is_max :
             # chooses the best move using Minimax
-            best_state = choose_best_move('minimax', game, state, max_depth=6)
+            best_state = choose_best_move('minimax', game, state, max_depth=7)
             if best_state is None:
                 print("No move found (final state or a mistake...).")
                 break
