@@ -158,9 +158,6 @@ La classe Game sert de fondation pour définir la structure et les règles d'un 
 - `game_heuristic()` : 
 - `get_winner()` : 
 
-#### Utilisation
-
-
 
 ### Classe Minimax
 
@@ -190,9 +187,6 @@ L'algorithme Minimax repose sur un principe simple mais puissant :
 - `max_value()` : 
 - `min_value()` : 
 
-#### Utilisation
-
-
 
 ### Classe Node
 
@@ -210,8 +204,6 @@ La classe Node représente un nœud dans l'arbre d'exploration. Elle associe un 
 - `expand()` : 
 - `is_terminal()` : 
 - `display()` :
-
-#### Utilisation
 
 
 
@@ -237,8 +229,6 @@ La classe State représente une configuration complète du jeu à un moment donn
 - `generate_successors()` : 
 - `display()` :
 
-#### Utilisation
-
 
 
 ### Classe Tree
@@ -257,8 +247,6 @@ La classe Tree gère la structure globale de l'arbre d'exploration et fournit de
 
 - `build_tree()` : 
 - `display()` : 
-
-#### Utilisation
 
 
 
@@ -368,6 +356,44 @@ L’affichage des états est géré par la méthode display() dans chaque sous-c
 Les contributions au projet se font via GitHub. Chaque fonctionnalité doit être développée sur une branche dédiée. Toute nouvelle classe ou méthode importante doit être documentée. Il est également recommandé de conserver une certaine homogénéité dans les messages de commit, les noms de fichiers et les logs (print("[DEBUG] ...")).
 
 Ce guide vise à fournir aux développeurs toutes les informations nécessaires pour comprendre, utiliser et faire évoluer PyAdverseSearch de manière structurée et efficace.
+
+## 6 - Jeux intégrés disponibles
+
+En plus de la structure modulaire permettant d'ajouter ses propres jeux, PyAdverseSearch intègre déjà plusieurs jeux de démonstration pleinement fonctionnels :
+
+Tic Tac Toe (morpion) : disponible dans test/state_tictactoe.py
+
+Puissance 4 : dans test/state_puissance4.py
+
+Connect 4 : dans test/state_connect4.py
+
+Chaque jeu implémente les méthodes requises (apply_action(), evaluate(), possible_actions()...) en héritant de la classe State, avec des variantes spécifiques du plateau de jeu. Ces fichiers servent à la fois de démonstration et de base pour jouer contre une IA ou exécuter des tests automatiques.
+
+## 7 - Interaction homme vs IA (jouer contre Minimax)
+
+Depuis la branche dev, il est désormais possible de jouer directement contre l’algorithme Minimax à partir de la console. Cette fonctionnalité a été ajoutée dans le fichier state_tictactoe.py, comme l'indique le message de commit "human player can start".
+Cela permet à un utilisateur humain de jouer contre l'IA tour par tour.
+Cette fonctionnalité illustre la capacité du moteur Minimax à interagir dynamiquement dans une vraie partie, avec calcul en temps réel du meilleur coup à jouer. Elle montre également la robustesse de l'intégration entre State, Minimax, et l'interface utilisateur.
+
+## 8 - Algorithmes supplémentaires : Monte Carlo
+
+En plus de Minimax, une version expérimentale de l'algorithme Monte Carlo est présente dans le fichier montecarlo.py. Il s'agit d'un algorithme basé sur des simulations répétées aléatoires de parties, permettant d'évaluer les actions non pas par calcul exhaustif, mais par échantillonnage probabiliste.
+La méthode principale de cette classe est choose_best_move(state), comme dans Minimax, et elle peut être utilisée de manière interchangeable pour certains jeux.
+Une démonstration de cet algorithme est visible dans test/test_montecarlo.py.
+
+## 9 - Tests unitaires complets
+
+Le dossier test/ contient des scripts de tests variés :
+
+test_minimax.py : vérifie le bon fonctionnement de l’algorithme Minimax.
+
+test_montecarlo.py : teste les décisions issues de l’algorithme Monte Carlo.
+
+test_state_tictactoe.py, test_state_connect4.py, test_state_puissance4.py : assurent que les jeux implémentés respectent bien les méthodes requises et fonctionnent correctement.
+
+test_full_game_next_move.py : joue une partie complète en alternant IA et coups simulés.
+
+Tous ces tests permettent de s'assurer que les modules du projet restent fonctionnels même après modifications.
 
 
 
